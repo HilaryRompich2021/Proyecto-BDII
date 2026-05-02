@@ -1,0 +1,2371 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20261.26.0410.0924                               -->
+<workbook original-version='18.1' source-build='2026.1.1 (20261.26.0410.0924)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <AccessibleZoneTabOrder />
+    <AnimationOnByDefault />
+    <AutoCreateAndUpdateDSDPhoneLayouts />
+    <IntuitiveSorting />
+    <IntuitiveSorting_SP2 />
+    <MarkAnimation />
+    <ObjectModelEncapsulateLegacy />
+    <ObjectModelRelationshipPerfOptions />
+    <ObjectModelTableType />
+    <SchemaViewerObjectModel />
+    <SetMembershipControl />
+    <SheetIdentifierTracking />
+    <SortTagCleanup />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' inline='true' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='localhost' name='postgres.0tigpv0103zjyp1chcr0o0hn4gnu'>
+            <connection authentication='username-password' class='postgres' dbname='airline_dw' one-time-sql='' port='5432' server='localhost' username='postgres' />
+          </named-connection>
+        </named-connections>
+        <relation type='collection'>
+          <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='fact_vuelo' table='[dw].[fact_vuelo]' type='table' />
+          <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_aerolinea' table='[dw].[dim_aerolinea]' type='table' />
+          <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_aeropuerto' table='[dw].[dim_aeropuerto]' type='table' />
+          <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_aeropuerto1' table='[dw].[dim_aeropuerto]' type='table' />
+          <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_tiempo' table='[dw].[dim_tiempo]' type='table' />
+        </relation>
+        <cols>
+          <map key='[aerolinea_sk (dim_aerolinea)]' value='[dim_aerolinea].[aerolinea_sk]' />
+          <map key='[aerolinea_sk]' value='[fact_vuelo].[aerolinea_sk]' />
+          <map key='[aeropuerto_sk (dim_aeropuerto1)]' value='[dim_aeropuerto1].[aeropuerto_sk]' />
+          <map key='[aeropuerto_sk]' value='[dim_aeropuerto].[aeropuerto_sk]' />
+          <map key='[air_time]' value='[fact_vuelo].[air_time]' />
+          <map key='[anio]' value='[dim_tiempo].[anio]' />
+          <map key='[arr_delay]' value='[fact_vuelo].[arr_delay]' />
+          <map key='[cancellation_code]' value='[fact_vuelo].[cancellation_code]' />
+          <map key='[cancelled]' value='[fact_vuelo].[cancelled]' />
+          <map key='[carrier_delay]' value='[fact_vuelo].[carrier_delay]' />
+          <map key='[ciudad (dim_aeropuerto1)]' value='[dim_aeropuerto1].[ciudad]' />
+          <map key='[ciudad]' value='[dim_aeropuerto].[ciudad]' />
+          <map key='[dep_delay]' value='[fact_vuelo].[dep_delay]' />
+          <map key='[destino_sk]' value='[fact_vuelo].[destino_sk]' />
+          <map key='[dia]' value='[dim_tiempo].[dia]' />
+          <map key='[dia_semana]' value='[dim_tiempo].[dia_semana]' />
+          <map key='[distance]' value='[fact_vuelo].[distance]' />
+          <map key='[diverted]' value='[fact_vuelo].[diverted]' />
+          <map key='[es_fin_semana]' value='[dim_tiempo].[es_fin_semana]' />
+          <map key='[estado_codigo (dim_aeropuerto1)]' value='[dim_aeropuerto1].[estado_codigo]' />
+          <map key='[estado_codigo]' value='[dim_aeropuerto].[estado_codigo]' />
+          <map key='[estado_nombre (dim_aeropuerto1)]' value='[dim_aeropuerto1].[estado_nombre]' />
+          <map key='[estado_nombre]' value='[dim_aeropuerto].[estado_nombre]' />
+          <map key='[fecha]' value='[dim_tiempo].[fecha]' />
+          <map key='[flight_date]' value='[fact_vuelo].[flight_date]' />
+          <map key='[flight_sk]' value='[fact_vuelo].[flight_sk]' />
+          <map key='[iata_code (dim_aeropuerto)]' value='[dim_aeropuerto].[iata_code]' />
+          <map key='[iata_code (dim_aeropuerto1)]' value='[dim_aeropuerto1].[iata_code]' />
+          <map key='[iata_code]' value='[dim_aerolinea].[iata_code]' />
+          <map key='[late_aircraft_delay]' value='[fact_vuelo].[late_aircraft_delay]' />
+          <map key='[mes]' value='[dim_tiempo].[mes]' />
+          <map key='[nas_delay]' value='[fact_vuelo].[nas_delay]' />
+          <map key='[nombre_aerolinea]' value='[dim_aerolinea].[nombre_aerolinea]' />
+          <map key='[nombre_dia]' value='[dim_tiempo].[nombre_dia]' />
+          <map key='[nombre_mes]' value='[dim_tiempo].[nombre_mes]' />
+          <map key='[origen_sk]' value='[fact_vuelo].[origen_sk]' />
+          <map key='[security_delay]' value='[fact_vuelo].[security_delay]' />
+          <map key='[taxi_in]' value='[fact_vuelo].[taxi_in]' />
+          <map key='[taxi_out]' value='[fact_vuelo].[taxi_out]' />
+          <map key='[tiempo_sk (dim_tiempo)]' value='[dim_tiempo].[tiempo_sk]' />
+          <map key='[tiempo_sk]' value='[fact_vuelo].[tiempo_sk]' />
+          <map key='[trimestre]' value='[dim_tiempo].[trimestre]' />
+          <map key='[weather_delay]' value='[fact_vuelo].[weather_delay]' />
+        </cols>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>flight_sk</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[flight_sk]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>flight_sk</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>19</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>tiempo_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[tiempo_sk]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>tiempo_sk</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>aerolinea_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[aerolinea_sk]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>aerolinea_sk</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>origen_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[origen_sk]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>origen_sk</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>destino_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[destino_sk]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>destino_sk</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>flight_date</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[flight_date]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>flight_date</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>dep_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[dep_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>dep_delay</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>arr_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[arr_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>arr_delay</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>air_time</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[air_time]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>air_time</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>distance</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[distance]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>distance</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>8</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>cancelled</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[cancelled]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>cancelled</remote-alias>
+            <ordinal>11</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>cancellation_code</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[cancellation_code]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>cancellation_code</remote-alias>
+            <ordinal>12</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>5</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>diverted</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[diverted]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>diverted</remote-alias>
+            <ordinal>13</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>carrier_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[carrier_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>carrier_delay</remote-alias>
+            <ordinal>14</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>weather_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[weather_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>weather_delay</remote-alias>
+            <ordinal>15</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>nas_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[nas_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>nas_delay</remote-alias>
+            <ordinal>16</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>security_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[security_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>security_delay</remote-alias>
+            <ordinal>17</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>late_aircraft_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[late_aircraft_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>late_aircraft_delay</remote-alias>
+            <ordinal>18</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>taxi_out</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[taxi_out]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>taxi_out</remote-alias>
+            <ordinal>19</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>taxi_in</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[taxi_in]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>taxi_in</remote-alias>
+            <ordinal>20</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>aerolinea_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[aerolinea_sk (dim_aerolinea)]</local-name>
+            <parent-name>[dim_aerolinea]</parent-name>
+            <remote-alias>aerolinea_sk</remote-alias>
+            <ordinal>22</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_aerolinea (dw.dim_aerolinea)_AA7F44A2553242B6AF5CB1BED6C1F2E5]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>iata_code</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[iata_code]</local-name>
+            <parent-name>[dim_aerolinea]</parent-name>
+            <remote-alias>iata_code</remote-alias>
+            <ordinal>23</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>10</width>
+            <contains-null>false</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aerolinea (dw.dim_aerolinea)_AA7F44A2553242B6AF5CB1BED6C1F2E5]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>nombre_aerolinea</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[nombre_aerolinea]</local-name>
+            <parent-name>[dim_aerolinea]</parent-name>
+            <remote-alias>nombre_aerolinea</remote-alias>
+            <ordinal>24</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>100</width>
+            <contains-null>false</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aerolinea (dw.dim_aerolinea)_AA7F44A2553242B6AF5CB1BED6C1F2E5]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>aeropuerto_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[aeropuerto_sk]</local-name>
+            <parent-name>[dim_aeropuerto]</parent-name>
+            <remote-alias>aeropuerto_sk</remote-alias>
+            <ordinal>26</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>iata_code</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[iata_code (dim_aeropuerto)]</local-name>
+            <parent-name>[dim_aeropuerto]</parent-name>
+            <remote-alias>iata_code</remote-alias>
+            <ordinal>27</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>10</width>
+            <contains-null>false</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ciudad</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[ciudad]</local-name>
+            <parent-name>[dim_aeropuerto]</parent-name>
+            <remote-alias>ciudad</remote-alias>
+            <ordinal>28</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>100</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>estado_codigo</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[estado_codigo]</local-name>
+            <parent-name>[dim_aeropuerto]</parent-name>
+            <remote-alias>estado_codigo</remote-alias>
+            <ordinal>29</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>5</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>estado_nombre</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[estado_nombre]</local-name>
+            <parent-name>[dim_aeropuerto]</parent-name>
+            <remote-alias>estado_nombre</remote-alias>
+            <ordinal>30</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>100</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>aeropuerto_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[aeropuerto_sk (dim_aeropuerto1)]</local-name>
+            <parent-name>[dim_aeropuerto1]</parent-name>
+            <remote-alias>aeropuerto_sk</remote-alias>
+            <ordinal>32</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>iata_code</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[iata_code (dim_aeropuerto1)]</local-name>
+            <parent-name>[dim_aeropuerto1]</parent-name>
+            <remote-alias>iata_code</remote-alias>
+            <ordinal>33</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>10</width>
+            <contains-null>false</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ciudad</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[ciudad (dim_aeropuerto1)]</local-name>
+            <parent-name>[dim_aeropuerto1]</parent-name>
+            <remote-alias>ciudad</remote-alias>
+            <ordinal>34</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>100</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>estado_codigo</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[estado_codigo (dim_aeropuerto1)]</local-name>
+            <parent-name>[dim_aeropuerto1]</parent-name>
+            <remote-alias>estado_codigo</remote-alias>
+            <ordinal>35</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>5</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>estado_nombre</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[estado_nombre (dim_aeropuerto1)]</local-name>
+            <parent-name>[dim_aeropuerto1]</parent-name>
+            <remote-alias>estado_nombre</remote-alias>
+            <ordinal>36</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>100</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>tiempo_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[tiempo_sk (dim_tiempo)]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>tiempo_sk</remote-alias>
+            <ordinal>38</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>fecha</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[fecha]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>fecha</remote-alias>
+            <ordinal>39</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>dia</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[dia]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>dia</remote-alias>
+            <ordinal>40</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>mes</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[mes]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>mes</remote-alias>
+            <ordinal>41</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>nombre_mes</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[nombre_mes]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>nombre_mes</remote-alias>
+            <ordinal>42</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>20</width>
+            <contains-null>false</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>trimestre</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[trimestre]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>trimestre</remote-alias>
+            <ordinal>43</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>anio</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[anio]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>anio</remote-alias>
+            <ordinal>44</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>dia_semana</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[dia_semana]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>dia_semana</remote-alias>
+            <ordinal>45</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>nombre_dia</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[nombre_dia]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>nombre_dia</remote-alias>
+            <ordinal>46</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>20</width>
+            <contains-null>false</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>es_fin_semana</remote-name>
+            <remote-type>11</remote-type>
+            <local-name>[es_fin_semana]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>es_fin_semana</remote-alias>
+            <ordinal>47</ordinal>
+            <local-type>boolean</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='%Cancelados' datatype='real' name='[Calculation_0668842710700033]' role='measure' type='ordinal'>
+        <calculation class='tableau' formula='AVG([cancelled]) * 100' />
+      </column>
+      <column caption='dim_aerolinea' datatype='table' name='[__tableau_internal_object_id__].[dim_aerolinea (dw.dim_aerolinea)_AA7F44A2553242B6AF5CB1BED6C1F2E5]' role='measure' type='quantitative' />
+      <column caption='dim_aeropuerto' datatype='table' name='[__tableau_internal_object_id__].[dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD]' role='measure' type='quantitative' />
+      <column caption='dim_aeropuerto1' datatype='table' name='[__tableau_internal_object_id__].[dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135]' role='measure' type='quantitative' />
+      <column caption='dim_tiempo' datatype='table' name='[__tableau_internal_object_id__].[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]' role='measure' type='quantitative' />
+      <column caption='fact_vuelo' datatype='table' name='[__tableau_internal_object_id__].[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]' role='measure' type='quantitative' />
+      <column aggregation='Sum' caption='Aerolinea Sk (Dim Aerolinea)' datatype='integer' name='[aerolinea_sk (dim_aerolinea)]' role='dimension' type='ordinal' />
+      <column aggregation='Sum' caption='Aerolinea Sk' datatype='integer' name='[aerolinea_sk]' role='dimension' type='ordinal' />
+      <column aggregation='Sum' caption='Aeropuerto Sk (Dim Aeropuerto1)' datatype='integer' name='[aeropuerto_sk (dim_aeropuerto1)]' role='dimension' type='ordinal' />
+      <column aggregation='Sum' caption='Aeropuerto Sk' datatype='integer' name='[aeropuerto_sk]' role='dimension' type='ordinal' />
+      <column caption='Air Time' datatype='real' name='[air_time]' role='measure' type='quantitative' />
+      <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+      <column caption='Arr Delay' datatype='real' name='[arr_delay]' role='measure' type='quantitative' />
+      <column caption='Cancellation Code' datatype='string' name='[cancellation_code]' role='dimension' type='nominal' />
+      <column caption='Cancelled' datatype='integer' name='[cancelled]' role='measure' type='quantitative' />
+      <column caption='Carrier Delay' datatype='real' name='[carrier_delay]' role='measure' type='quantitative' />
+      <column caption='Ciudad (Dim Aeropuerto1)' datatype='string' name='[ciudad (dim_aeropuerto1)]' role='dimension' type='nominal' />
+      <column caption='Ciudad' datatype='string' name='[ciudad]' role='dimension' semantic-role='[City].[Name]' type='nominal' />
+      <column caption='Dep Delay' datatype='real' name='[dep_delay]' role='measure' type='quantitative' />
+      <column aggregation='Sum' caption='Destino Sk' datatype='integer' name='[destino_sk]' role='dimension' type='ordinal' />
+      <column caption='Dia' datatype='integer' name='[dia]' role='dimension' type='quantitative' />
+      <column caption='Dia Semana' datatype='integer' name='[dia_semana]' role='dimension' type='quantitative' />
+      <column caption='Distance' datatype='real' name='[distance]' role='measure' type='quantitative' />
+      <column caption='Diverted' datatype='integer' name='[diverted]' role='measure' type='quantitative' />
+      <column caption='Es Fin Semana' datatype='boolean' name='[es_fin_semana]' role='dimension' type='nominal' />
+      <column caption='Estado Codigo (Dim Aeropuerto1)' datatype='string' name='[estado_codigo (dim_aeropuerto1)]' role='dimension' type='nominal' />
+      <column caption='Estado Codigo' datatype='string' name='[estado_codigo]' role='dimension' type='nominal' />
+      <column caption='Estado Nombre (Dim Aeropuerto1)' datatype='string' name='[estado_nombre (dim_aeropuerto1)]' role='dimension' type='nominal' />
+      <column caption='Estado Nombre' datatype='string' name='[estado_nombre]' role='dimension' type='nominal' />
+      <column caption='Fecha' datatype='date' name='[fecha]' role='dimension' type='ordinal' />
+      <column caption='Flight Date' datatype='date' name='[flight_date]' role='dimension' type='ordinal' />
+      <column caption='Flight Sk' datatype='integer' name='[flight_sk]' role='measure' type='quantitative' />
+      <column caption='Iata Code (Dim Aeropuerto)' datatype='string' name='[iata_code (dim_aeropuerto)]' role='dimension' type='nominal' />
+      <column caption='Iata Code (Dim Aeropuerto1)' datatype='string' name='[iata_code (dim_aeropuerto1)]' role='dimension' type='nominal' />
+      <column caption='Iata Code' datatype='string' name='[iata_code]' role='dimension' type='nominal' />
+      <column caption='Late Aircraft Delay' datatype='real' name='[late_aircraft_delay]' role='measure' type='quantitative' />
+      <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+      <column caption='Nas Delay' datatype='real' name='[nas_delay]' role='measure' type='quantitative' />
+      <column caption='Nombre Aerolinea' datatype='string' name='[nombre_aerolinea]' role='dimension' type='nominal' />
+      <column caption='Nombre Dia' datatype='string' name='[nombre_dia]' role='dimension' type='nominal' />
+      <column caption='Nombre Mes' datatype='string' name='[nombre_mes]' role='dimension' type='nominal' />
+      <column aggregation='Sum' caption='Origen Sk' datatype='integer' name='[origen_sk]' role='dimension' type='ordinal' />
+      <column caption='Security Delay' datatype='real' name='[security_delay]' role='measure' type='quantitative' />
+      <column caption='Taxi In' datatype='real' name='[taxi_in]' role='measure' type='quantitative' />
+      <column caption='Taxi Out' datatype='real' name='[taxi_out]' role='measure' type='quantitative' />
+      <column aggregation='Sum' caption='Tiempo Sk (Dim Tiempo)' datatype='integer' name='[tiempo_sk (dim_tiempo)]' role='dimension' type='ordinal' />
+      <column aggregation='Sum' caption='Tiempo Sk' datatype='integer' name='[tiempo_sk]' role='dimension' type='ordinal' />
+      <column caption='Trimestre' datatype='integer' name='[trimestre]' role='dimension' type='quantitative' />
+      <column caption='Weather Delay' datatype='real' name='[weather_delay]' role='measure' type='quantitative' />
+      <column-instance column='[carrier_delay]' derivation='Avg' name='[avg:carrier_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[late_aircraft_delay]' derivation='Avg' name='[avg:late_aircraft_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[nas_delay]' derivation='Avg' name='[avg:nas_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[weather_delay]' derivation='Avg' name='[avg:weather_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+      <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+      <column-instance column='[carrier_delay]' derivation='Sum' name='[sum:carrier_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[late_aircraft_delay]' derivation='Sum' name='[sum:late_aircraft_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[nas_delay]' derivation='Sum' name='[sum:nas_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[weather_delay]' derivation='Sum' name='[sum:weather_delay:qk]' pivot='key' type='quantitative' />
+      <group caption='Acción (Anio,Mes)' hidden='true' name='[Action (Anio,Mes)]' name-style='unqualified' user:auto-column='sheet_link'>
+        <groupfilter function='crossjoin'>
+          <groupfilter function='level-members' level='[none:anio:ok]' />
+          <groupfilter function='level-members' level='[none:mes:ok]' />
+        </groupfilter>
+      </group>
+      <layout dim-ordering='alphabetic' measure-ordering='alphabetic' rowDisplayCount='10' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[:Measure Names]' type='palette'>
+            <map to='#4e79a7'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4]&quot;</bucket>
+            </map>
+            <map to='#59a14f'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:weather_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#59a14f'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[sum:weather_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:nas_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[sum:nas_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:late_aircraft_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[sum:late_aircraft_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:carrier_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[sum:carrier_delay:qk]&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;Guatemala&quot;' />
+      </semantic-values>
+      <field-sort-info field-sort-order-type='custom-order'>
+        <field-sort-custom-order field='aeropuerto_sk' />
+        <field-sort-custom-order field='iata_code (dim_aeropuerto)' />
+        <field-sort-custom-order field='ciudad' />
+        <field-sort-custom-order field='estado_codigo' />
+        <field-sort-custom-order field='estado_nombre' />
+      </field-sort-info>
+      <object-graph>
+        <objects>
+          <object caption='dim_aerolinea' id='dim_aerolinea (dw.dim_aerolinea)_AA7F44A2553242B6AF5CB1BED6C1F2E5'>
+            <properties context=''>
+              <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_aerolinea' table='[dw].[dim_aerolinea]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_aeropuerto' id='dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD'>
+            <properties context=''>
+              <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_aeropuerto' table='[dw].[dim_aeropuerto]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_aeropuerto1' id='dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135'>
+            <properties context=''>
+              <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_aeropuerto1' table='[dw].[dim_aeropuerto]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_tiempo' id='dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477'>
+            <properties context=''>
+              <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_tiempo' table='[dw].[dim_tiempo]' type='table' />
+            </properties>
+          </object>
+          <object caption='fact_vuelo' id='fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73'>
+            <properties context=''>
+              <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='fact_vuelo' table='[dw].[fact_vuelo]' type='table' />
+            </properties>
+          </object>
+        </objects>
+        <relationships>
+          <relationship>
+            <expression op='='>
+              <expression op='[aerolinea_sk]' />
+              <expression op='[aerolinea_sk (dim_aerolinea)]' />
+            </expression>
+            <first-end-point guaranteed-value='true' is-db-set-guaranteed-value='true' object-id='fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73' />
+            <second-end-point is-db-set-unique-key='true' object-id='dim_aerolinea (dw.dim_aerolinea)_AA7F44A2553242B6AF5CB1BED6C1F2E5' unique-key='true' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[origen_sk]' />
+              <expression op='[aeropuerto_sk]' />
+            </expression>
+            <first-end-point guaranteed-value='true' is-db-set-guaranteed-value='true' object-id='fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73' />
+            <second-end-point is-db-set-unique-key='true' object-id='dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD' unique-key='true' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[destino_sk]' />
+              <expression op='[aeropuerto_sk (dim_aeropuerto1)]' />
+            </expression>
+            <first-end-point guaranteed-value='true' is-db-set-guaranteed-value='true' object-id='fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73' />
+            <second-end-point is-db-set-unique-key='true' object-id='dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135' unique-key='true' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[tiempo_sk]' />
+              <expression op='[tiempo_sk (dim_tiempo)]' />
+            </expression>
+            <first-end-point guaranteed-value='true' is-db-set-guaranteed-value='true' object-id='fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73' />
+            <second-end-point is-db-set-unique-key='true' object-id='dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477' unique-key='true' />
+          </relationship>
+        </relationships>
+      </object-graph>
+    </datasource>
+  </datasources>
+  <actions>
+    <action caption='Filtro 1 (generado)' name='[Action1_60AA50326EBD4DBD9D9B5F4BF93D5A31]'>
+      <activation auto-clear='true' type='on-select' />
+      <source dashboard='Dashboard 1' type='sheet' worksheet='Tendencia Mensual Retrasos' />
+      <command command='tsc:tsl-filter'>
+        <param name='special-fields' value='all' />
+        <param name='target' value='Dashboard 1' />
+      </command>
+    </action>
+  </actions>
+  <worksheets>
+    <worksheet name='Causas Retraso'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1oyvysu07n1wsp1d8hwsb14cafv4'>
+            <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+            <column-instance column='[carrier_delay]' derivation='Avg' name='[avg:carrier_delay:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[late_aircraft_delay]' derivation='Avg' name='[avg:late_aircraft_delay:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[nas_delay]' derivation='Avg' name='[avg:nas_delay:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[weather_delay]' derivation='Avg' name='[avg:weather_delay:qk]' pivot='key' type='quantitative' />
+            <column caption='Carrier Delay' datatype='real' name='[carrier_delay]' role='measure' type='quantitative' />
+            <column caption='Late Aircraft Delay' datatype='real' name='[late_aircraft_delay]' role='measure' type='quantitative' />
+            <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+            <column caption='Nas Delay' datatype='real' name='[nas_delay]' role='measure' type='quantitative' />
+            <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[trimestre]' derivation='None' name='[none:trimestre:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[weather_delay]' derivation='Sum' name='[sum:weather_delay:qk]' pivot='key' type='quantitative' />
+            <column caption='Trimestre' datatype='integer' name='[trimestre]' role='dimension' type='quantitative' />
+            <column caption='Weather Delay' datatype='real' name='[weather_delay]' role='measure' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]'>
+            <groupfilter function='union' user:op='manual'>
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:carrier_delay:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:late_aircraft_delay:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:nas_delay:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:weather_delay:qk]&quot;' />
+            </groupfilter>
+          </filter>
+          <manual-sort column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]' direction='ASC'>
+            <dictionary>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:carrier_delay:qk]&quot;</bucket>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:late_aircraft_delay:qk]&quot;</bucket>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:nas_delay:qk]&quot;</bucket>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[sum:weather_delay:qk]&quot;</bucket>
+            </dictionary>
+          </manual-sort>
+          <filter class='categorical' column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]'>
+            <groupfilter function='crossjoin' user:ui-action-filter='[Action1_60AA50326EBD4DBD9D9B5F4BF93D5A31]' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:anio:ok]' member='2023' />
+              <groupfilter function='member' level='[none:mes:ok]' member='7' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]</column>
+            <column>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Multiple Values]</rows>
+        <cols>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:trimestre:qk]</cols>
+      </table>
+      <simple-id uuid='{B20C5B72-7F8F-4C73-BF33-2240C6CEBC08}' />
+    </worksheet>
+    <worksheet name='KPI Porcentaje Cancelados'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run>%Cancelados</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1oyvysu07n1wsp1d8hwsb14cafv4'>
+            <column caption='%Cancelados' datatype='real' name='[Calculation_0668842710700033]' role='measure' type='ordinal'>
+              <calculation class='tableau' formula='AVG([cancelled]) * 100' />
+            </column>
+            <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+            <column caption='Cancelled' datatype='integer' name='[cancelled]' role='measure' type='quantitative' />
+            <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+            <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_0668842710700033]' derivation='User' name='[usr:Calculation_0668842710700033:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]'>
+            <groupfilter function='crossjoin' user:ui-action-filter='[Action1_60AA50326EBD4DBD9D9B5F4BF93D5A31]' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:anio:ok]' member='2023' />
+              <groupfilter function='member' level='[none:mes:ok]' member='7' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='cell'>
+            <format attr='text-format' data-class='total' field='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[usr:Calculation_0668842710700033:qk]' value='p0.00%' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='text-format' field='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[usr:Calculation_0668842710700033:qk]' value='p0.00%' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <text column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[usr:Calculation_0668842710700033:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{BBE2FAD0-E505-4880-963A-9E819111C037}' />
+    </worksheet>
+    <worksheet name='KPI Retraso Promedio'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run fontalignment='1'>Retraso Promedio</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1oyvysu07n1wsp1d8hwsb14cafv4'>
+            <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+            <column caption='Arr Delay' datatype='real' name='[arr_delay]' role='measure' type='quantitative' />
+            <column-instance column='[arr_delay]' derivation='Avg' name='[avg:arr_delay:qk]' pivot='key' type='quantitative' />
+            <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+            <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]'>
+            <groupfilter function='crossjoin' user:ui-action-filter='[Action1_60AA50326EBD4DBD9D9B5F4BF93D5A31]' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:anio:ok]' member='2023' />
+              <groupfilter function='member' level='[none:mes:ok]' member='7' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <text column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{3F574643-24C2-4868-B936-25E95C635218}' />
+    </worksheet>
+    <worksheet name='KPI Total Vuelos'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run>Total Vuelos</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1oyvysu07n1wsp1d8hwsb14cafv4'>
+            <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+            <column-instance column='[flight_sk]' derivation='Count' name='[cnt:flight_sk:qk]' pivot='key' type='quantitative' />
+            <column caption='Flight Sk' datatype='integer' name='[flight_sk]' role='measure' type='quantitative' />
+            <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+            <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]'>
+            <groupfilter function='crossjoin' user:ui-action-filter='[Action1_60AA50326EBD4DBD9D9B5F4BF93D5A31]' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:anio:ok]' member='2023' />
+              <groupfilter function='member' level='[none:mes:ok]' member='7' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <text column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[cnt:flight_sk:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='mark-labels-show' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{1CC88E16-0C9C-4D56-AFB5-6E3A24601D39}' />
+    </worksheet>
+    <worksheet name='Retraso por Aerolinea'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1oyvysu07n1wsp1d8hwsb14cafv4'>
+            <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+            <column caption='Arr Delay' datatype='real' name='[arr_delay]' role='measure' type='quantitative' />
+            <column-instance column='[arr_delay]' derivation='Avg' name='[avg:arr_delay:qk]' pivot='key' type='quantitative' />
+            <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+            <column caption='Nombre Aerolinea' datatype='string' name='[nombre_aerolinea]' role='dimension' type='nominal' />
+            <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[nombre_aerolinea]' derivation='None' name='[none:nombre_aerolinea:nk]' pivot='key' type='nominal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]'>
+            <groupfilter function='crossjoin' user:ui-action-filter='[Action1_60AA50326EBD4DBD9D9B5F4BF93D5A31]' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:anio:ok]' member='2023' />
+              <groupfilter function='member' level='[none:mes:ok]' member='7' />
+            </groupfilter>
+          </filter>
+          <shelf-sorts>
+            <shelf-sort-v2 dimension-to-sort='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:nombre_aerolinea:nk]' direction='DESC' is-on-innermost-dimension='true' measure-to-sort-by='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' shelf='rows' />
+          </shelf-sorts>
+          <slices>
+            <column>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='cell'>
+            <format attr='width' value='702' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='width' field='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:nombre_aerolinea:nk]' value='128' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' />
+              <text column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='mark-labels-show' value='true' />
+              </style-rule>
+              <style-rule element='pane'>
+                <format attr='minwidth' value='-1' />
+                <format attr='maxwidth' value='-1' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:nombre_aerolinea:nk]</rows>
+        <cols>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]</cols>
+      </table>
+      <simple-id uuid='{A36478B3-6B0A-4D2E-9A21-E544A50BD9E4}' />
+    </worksheet>
+    <worksheet name='Tendencia Mensual Retrasos'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1oyvysu07n1wsp1d8hwsb14cafv4'>
+            <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+            <column caption='Arr Delay' datatype='real' name='[arr_delay]' role='measure' type='quantitative' />
+            <column-instance column='[arr_delay]' derivation='Avg' name='[avg:arr_delay:qk]' pivot='key' type='quantitative' />
+            <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+            <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Line' />
+          </pane>
+        </panes>
+        <rows>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]</rows>
+        <cols>([federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:anio:ok] / [federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:mes:ok])</cols>
+      </table>
+      <simple-id uuid='{D5746C49-96D8-4182-B2A2-EB5FEF08C038}' />
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard enable-sort-zone-taborder='true' name='Dashboard 1'>
+      <style />
+      <size maxheight='800' maxwidth='1000' minheight='800' minwidth='1000' preset-index='1' sizing-mode='fixed' />
+      <zones>
+        <zone h='100000' id='4' type-v2='layout-basic' w='100000' x='0' y='0'>
+          <zone h='89092' id='25' is-fixed='true' type-v2='layout-basic' w='98400' x='800' y='9908'>
+            <zone h='89092' id='8' param='horz' type-v2='layout-flow' w='79100' x='800' y='9908'>
+              <zone h='89092' id='6' type-v2='layout-basic' w='79100' x='800' y='9908'>
+                <zone h='44545' id='3' name='Tendencia Mensual Retrasos' w='79100' x='800' y='9908'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='44547' id='10' name='Causas Retraso' w='39553' x='40347' y='54453'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='44547' id='12' name='Retraso por Aerolinea' w='39547' x='800' y='54453'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+              </zone>
+            </zone>
+            <zone h='89092' id='26' param='horz' type-v2='layout-flow' w='19300' x='79900' y='9908'>
+              <zone fixed-size='160' h='89092' id='7' is-fixed='true' param='vert' type-v2='layout-flow' w='19300' x='79900' y='9908'>
+                <zone h='14250' id='11' name='Causas Retraso' pane-specification-id='0' param='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]' type-v2='color' w='19300' x='79900' y='9908'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='9125' id='13' name='Retraso por Aerolinea' pane-specification-id='0' param='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' type-v2='color' w='19300' x='79900' y='24158'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+              </zone>
+            </zone>
+          </zone>
+          <zone h='8908' id='14' name='KPI Total Vuelos' show-title='false' w='10686' x='11484' y='1000'>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone h='8908' id='16' name='KPI Porcentaje Cancelados' show-title='false' w='19258' x='79942' y='1000'>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone h='8908' id='21' name='KPI Retraso Promedio' show-title='false' w='19257' x='41427' y='1000'>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone forceUpdate='true' h='8908' id='22' type-v2='text' w='10684' x='800' y='1000'>
+            <formatted-text>
+              <run>Total Vuelos</run>
+            </formatted-text>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone h='8908' id='23' type-v2='text' w='19257' x='22170' y='1000'>
+            <formatted-text>
+              <run>Retraso Promedio</run>
+            </formatted-text>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone h='8908' id='24' type-v2='text' w='19258' x='60684' y='1000'>
+            <formatted-text>
+              <run>Porcentaje Cancelados</run>
+            </formatted-text>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone-style>
+            <format attr='border-color' value='#000000' />
+            <format attr='border-style' value='none' />
+            <format attr='border-width' value='0' />
+            <format attr='margin' value='8' />
+          </zone-style>
+        </zone>
+      </zones>
+      <devicelayouts>
+        <devicelayout name='Desktop'>
+          <size maxheight='1180' minheight='1180' sizing-mode='vscroll' />
+        </devicelayout>
+        <devicelayout auto-generated='true' name='Phone'>
+          <size maxheight='1450' minheight='1450' sizing-mode='vscroll' />
+          <zones>
+            <zone h='100000' id='30' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98000' id='29' param='vert' type-v2='layout-flow' w='98400' x='800' y='1000'>
+                <zone forceUpdate='true' h='8908' id='22' type-v2='text' w='10684' x='800' y='1000'>
+                  <formatted-text>
+                    <run>Total Vuelos</run>
+                  </formatted-text>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='63' h='8908' id='14' is-fixed='true' name='KPI Total Vuelos' show-title='false' w='10686' x='11484' y='1000'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='8908' id='23' type-v2='text' w='19257' x='22170' y='1000'>
+                  <formatted-text>
+                    <run>Retraso Promedio</run>
+                  </formatted-text>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='63' h='8908' id='21' is-fixed='true' name='KPI Retraso Promedio' show-title='false' w='19257' x='41427' y='1000'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='8908' id='24' type-v2='text' w='19258' x='60684' y='1000'>
+                  <formatted-text>
+                    <run>Porcentaje Cancelados</run>
+                  </formatted-text>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='63' h='8908' id='16' is-fixed='true' name='KPI Porcentaje Cancelados' show-title='false' w='19258' x='79942' y='1000'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='44545' id='3' is-fixed='true' name='Tendencia Mensual Retrasos' w='79100' x='800' y='9908'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='44547' id='12' is-fixed='true' name='Retraso por Aerolinea' w='39547' x='800' y='54453'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='9125' id='13' name='Retraso por Aerolinea' pane-specification-id='0' param='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' type-v2='color' w='19300' x='79900' y='24158'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='44547' id='10' is-fixed='true' name='Causas Retraso' w='39553' x='40347' y='54453'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='14250' id='11' name='Causas Retraso' pane-specification-id='0' param='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]' type-v2='color' w='19300' x='79900' y='9908'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+              </zone>
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='8' />
+              </zone-style>
+            </zone>
+          </zones>
+        </devicelayout>
+      </devicelayouts>
+      <simple-id uuid='{A0934DF3-C6E3-4395-8538-8DA6B18B9F17}' />
+    </dashboard>
+  </dashboards>
+  <windows saved-dpi-scale-factor='1.25' source-height='37'>
+    <window class='worksheet' name='Tendencia Mensual Retrasos'>
+      <cards>
+        <edge name='left'>
+          <strip size='100'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:mes:qk]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{FAB5818C-CFF1-4FF0-8354-D0F053E86F76}' />
+    </window>
+    <window class='worksheet' name='Retraso por Aerolinea'>
+      <cards>
+        <edge name='left'>
+          <strip size='299'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='174'>
+            <card pane-specification-id='0' param='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]</field>
+            <field>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:nombre_aerolinea:nk]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{8651A98D-00B4-4234-BE61-CA9F50ABF231}' />
+    </window>
+    <window class='worksheet' name='KPI Total Vuelos'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{A0A3C2E4-FBC2-49B7-B061-995DD832C440}' />
+    </window>
+    <window class='worksheet' name='KPI Retraso Promedio'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{DC4FB988-DFAA-4C4B-9E9E-0B02D732E21F}' />
+    </window>
+    <window class='worksheet' name='KPI Porcentaje Cancelados'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{BB8BD3E4-1546-42E2-874C-9982FACD2F6A}' />
+    </window>
+    <window class='worksheet' name='Causas Retraso'>
+      <cards>
+        <edge name='left'>
+          <strip size='257'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+            <card type='measures' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='174'>
+            <card pane-specification-id='0' param='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]</field>
+            <field>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:trimestre:qk]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{32C8DC8A-4313-4134-8D95-6424C30D4C60}' />
+    </window>
+    <window class='dashboard' maximized='true' name='Dashboard 1'>
+      <viewpoints>
+        <viewpoint name='Causas Retraso'>
+          <zoom type='entire-view' />
+          <highlight>
+            <color-one-way>
+              <field>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]</field>
+            </color-one-way>
+          </highlight>
+        </viewpoint>
+        <viewpoint name='KPI Porcentaje Cancelados' />
+        <viewpoint name='KPI Retraso Promedio' />
+        <viewpoint name='KPI Total Vuelos' />
+        <viewpoint name='Retraso por Aerolinea' />
+        <viewpoint name='Tendencia Mensual Retrasos'>
+          <zoom type='entire-view' />
+          <selection-collection>
+            <tuple-selection>
+              <tuple-reference>
+                <tuple-descriptor>
+                  <pane-descriptor>
+                    <x-fields>
+                      <field>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:anio:ok]</field>
+                      <field>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:mes:ok]</field>
+                    </x-fields>
+                    <y-fields>
+                      <field>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]</field>
+                    </y-fields>
+                  </pane-descriptor>
+                  <columns>
+                    <field>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]</field>
+                    <field>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:anio:ok]</field>
+                    <field>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:mes:ok]</field>
+                  </columns>
+                </tuple-descriptor>
+                <tuple>
+                  <value>16.094083678276043</value>
+                  <value>2023</value>
+                  <value>7</value>
+                </tuple>
+              </tuple-reference>
+            </tuple-selection>
+          </selection-collection>
+        </viewpoint>
+      </viewpoints>
+      <active id='3' />
+      <device-preview visible='true' />
+      <simple-id uuid='{5A346ABC-02C1-43F2-9629-244F4248FCF8}' />
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Causas Retraso' width='192'>
+      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
+      h0UEQZz+Gg0AAAAASUVORK5CYII=
+    </thumbnail>
+    <thumbnail height='192' name='Dashboard 1' width='192'>
+      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
+    </thumbnail>
+    <thumbnail height='25' name='KPI Porcentaje Cancelados' width='64'>
+      iVBORw0KGgoAAAANSUhEUgAAAEAAAAAZCAYAAACB6CjhAAAACXBIWXMAABJ0AAASdAHeZh94
+      AAAC+0lEQVRYhe1YTUvjUBQ9hpIWLBGxih8gbkQr/oTajS24cKEbFQTBSnWp6EqxLuyiUDFb
+      FyIFBTeCKOQXtCDiDyg2G0kLDYkgChFJ0747C6GDkyrjODUFe5b3vnfuyeHlvstrISLCDwbn
+      tACn0TTAaQFOo2mA0wKcRtMApwU4jaYBTgtwGk0DnBbgNH68Aa7vKsQYw83NDc7OzrC5uQmf
+      z/fhelEUkU6nUSqV4PV6MTc3h8nJSfA8/4YvlUqhUCiA53lMT09jdnYWHo8HhUIBx8fHME3T
+      xi0IApaXlyEIQv0NYIwhl8shkUigVCrBsiwwxj7c8/z8jJGREaysrKC1tRX39/dIJpNQFAWr
+      q6vgOA6iKEJRFKytrWFoaAiGYeDo6AjJZBJbW1vo7u5GNBq1ccuyjJOTk98BqjM0TaP19XXK
+      ZrOkqiotLi6Spmmf5lEUhTY2NsgwDCIikmWZKpWKrdbS0tK7/JVKhXZ3d+ny8rIaq3sP6Orq
+      wv7+Pvx+Pzju38upqgrGGFyu10M7ODho4zMMAzzPw+121+SQZRnFYhFjY2PVWMM3QcuykE6n
+      cXBwgEgk8u7HPT4+Ym9vD8FgEG1tbbY8Ywzn5+cIh8Nob2+vxhvWgNPTU0xMTCAQCECSJIii
+      iNHR0Zprr6+vEYlEEAqFMDMzU3NNPp9HPp9HMBh8m/j0z/gFaJr2pR4QjUZJVVUiIjJNk2Kx
+      GMViMXp5efmrvbqu23INewL+REdHB3ieh67rAABJklAul7G9vQ2Px/Ph3ouLCwQCAXR2dtpy
+      DWFAuVzG1dUVVFUFACiKYrsqs9ksLMvCwMAATNNEJpPB1NRUdS54D8ViEbe3twiFQjXzdZ8D
+      MpkMEokEgNdG9PT0hIWFBXAcB7/fj3g8DiLC4eEh5ufn0dPTA6/Xi/HxcfT19aG/vx+5XA4u
+      lwvxeByCIEDXddzd3WFnZ8d2E/h8PoiiWB20JEnC8PAwent7a+prIWrMZ3HGGB4eHsAYg9vt
+      rtnZ/wca1oDvwi9Wj93EBFkkdwAAAABJRU5ErkJggg==
+    </thumbnail>
+    <thumbnail height='25' name='KPI Retraso Promedio' width='64'>
+      iVBORw0KGgoAAAANSUhEUgAAAEAAAAAZCAYAAACB6CjhAAAACXBIWXMAABJ0AAASdAHeZh94
+      AAACg0lEQVRYhe2YP0hyURjGf8lnBZIS3MTBlhRpaAuioVpKHFycIqhZRaShrdAlqLnAIXRM
+      IhokHF1cwsFFt3uRO91CZ2/XS3/1m7oQ2md8fNf7QT5whvPyvO957nPewznciV6v1+MHw2a1
+      AKsxNsBqAVZjbIDVAqzG2ACrBViNsQFWC7AaYwOsFmA1frwBv0a1ULVaJZPJIMsyLpeLYDBI
+      IpFgenq6j3t/f08ul+uLO51OotEoTqfTiD0+PnJxccH8/Dw7OzsD1/4TZyQG3N3dkc1mSaVS
+      BAIBXl9fqdVqvL+/D+R7PB6SyeSnWKPR4PLy0pjruk4+n6dYLDI1NYXL5eqr8x2O6UdAVVWu
+      rq44OjoiEAgAYLfbWVlZweFwDMyx2+243W5jCIJAuVwmHA4bu18oFAC4ubkhFAoNrPMdjukd
+      IEkSMzMz+P3+v67RaDRoNpufumJvb29o3nc4phsgyzI+nw9d16nX62iahtfrZWlpCZtteAN2
+      u10KhQLBYJDZ2dl/rs/0I6BpGvl8nng8jiRJaJrG2dkZsVgMVVWH5iuKgqIobGxsmKLP9A5w
+      u91EIhEODg6M2Pb2NvV6nfPzc9Lp9Je5iqJwenrKyckJgiCYos/0DlhcXESW5b7d1jTty1vg
+      A7e3t6ytrTE3N2eaPtMN8Pv9eDwerq+v6Xa7ALy8vFAqlVhdXQXg7e2NSqVCq9Uy8prNJpIk
+      sbW1Zaq+iVH8FVZVlePjYx4eHlhYWEAURTY3N4lGo0xOTtLpdEgmk+zu7hofnM1meXp6Yn9/
+      v6+eruuk02lEUQSg0+kAGNfq4eEhy8vLQznr6+ujMeAD7Xab5+dnHA7Hl2+AUWOkBvyP+A2m
+      eAKu/hE62gAAAABJRU5ErkJggg==
+    </thumbnail>
+    <thumbnail height='25' name='KPI Total Vuelos' width='104'>
+      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
+      Hs8AAAAASUVORK5CYII=
+    </thumbnail>
+    <thumbnail height='192' name='Retraso por Aerolinea' width='192'>
+      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
+    </thumbnail>
+    <thumbnail height='192' name='Tendencia Mensual Retrasos' width='192'>
+      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
+      zsTyAAAAAElFTkSuQmCC
+    </thumbnail>
+  </thumbnails>
+</workbook>

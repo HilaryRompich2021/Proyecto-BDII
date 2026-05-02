@@ -1,0 +1,220 @@
+-- ddl_schema.sql
+-- Proyecto Final BD-II — Airline On-Time Performance DW
+-- PostgreSQL 14+
+-- Ejecutar con: psql -U postgres -d airline_dw -f sql/ddl_schema.sql
+
+-- ─── Base de datos ────────────────────────────────────────────────────────────
+-- (crear manualmente antes o descomentar)
+-- CREATE DATABASE airline_dw;
+
+-- ─── Schema ───────────────────────────────────────────────────────────────────
+DROP SCHEMA IF EXISTS dw CASCADE;
+CREATE SCHEMA dw;
+SET search_path = dw;
+
+-- =============================================================================
+-- DIMENSIONES
+-- =============================================================================
+
+-- ─── dim_tiempo ───────────────────────────────────────────────────────────────
+-- Granularidad: día. Obligatoria según rúbrica.
+-- Columnas: fecha, dia, mes, trimestre, anio, dia_semana (requisito PDF)
+CREATE TABLE dw.dim_tiempo (
+    tiempo_sk       INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    fecha           DATE        NOT NULL UNIQUE,
+    dia             SMALLINT    NOT NULL,
+    mes             SMALLINT    NOT NULL,
+    nombre_mes      VARCHAR(20) NOT NULL,
+    trimestre       SMALLINT    NOT NULL,
+    anio            SMALLINT    NOT NULL,
+    dia_semana      SMALLINT    NOT NULL,  -- 1=Lunes, 7=Domingo
+    nombre_dia      VARCHAR(20) NOT NULL,
+    es_fin_semana   BOOLEAN     NOT NULL
+);
+
+COMMENT ON TABLE dw.dim_tiempo IS
+    'Dimensión de tiempo con granularidad de día. Columna fecha usada como clave de partición en fact_vuelo.';
+
+-- ─── dim_aerolinea ────────────────────────────────────────────────────────────
+CREATE TABLE dw.dim_aerolinea (
+    aerolinea_sk    INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    iata_code       VARCHAR(10) NOT NULL UNIQUE,
+    nombre_aerolinea VARCHAR(100) NOT NULL
+);
+
+COMMENT ON TABLE dw.dim_aerolinea IS
+    'Aerolínea de marketing (la que vende el boleto al pasajero).';
+
+-- ─── dim_aeropuerto ───────────────────────────────────────────────────────────
+-- Role-playing dimension: usada dos veces en fact_vuelo (origen y destino)
+CREATE TABLE dw.dim_aeropuerto (
+    aeropuerto_sk   INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    iata_code       VARCHAR(10) NOT NULL UNIQUE,
+    ciudad          VARCHAR(100),
+    estado_codigo   VARCHAR(5),
+    estado_nombre   VARCHAR(100)
+);
+
+COMMENT ON TABLE dw.dim_aeropuerto IS
+    'Aeropuerto. Role-playing dimension: referenciada como origen_sk y destino_sk en fact_vuelo.';
+
+-- =============================================================================
+-- TABLA DE HECHOS — PARTICIONADA POR RANGO
+-- =============================================================================
+
+-- ─── fact_vuelo (tabla padre, no contiene datos directamente) ─────────────────
+-- PARTITION BY RANGE sobre flight_date
+-- Granularidad: mensual (24 particiones para 2023 y 2024)
+-- Justificación: ~500K–650K filas por partición permite demostrar partition pruning
+--   con resultados como "Partitions removed: 21 of 24" en EXPLAIN ANALYZE
+CREATE TABLE dw.fact_vuelo (
+    flight_sk           BIGINT GENERATED ALWAYS AS IDENTITY,
+    tiempo_sk           INTEGER     NOT NULL,
+    aerolinea_sk        INTEGER     NOT NULL,
+    origen_sk           INTEGER     NOT NULL,
+    destino_sk          INTEGER     NOT NULL,
+    flight_date         DATE        NOT NULL,   -- columna de partición
+    dep_delay           NUMERIC(7,2),
+    arr_delay           NUMERIC(7,2),
+    air_time            NUMERIC(7,2),
+    distance            NUMERIC(8,2),
+    cancelled           SMALLINT    NOT NULL DEFAULT 0,
+    cancellation_code   VARCHAR(5),
+    diverted            SMALLINT    NOT NULL DEFAULT 0,
+    carrier_delay       NUMERIC(7,2),
+    weather_delay       NUMERIC(7,2),
+    nas_delay           NUMERIC(7,2),
+    security_delay      NUMERIC(7,2),
+    late_aircraft_delay NUMERIC(7,2),
+    taxi_out            NUMERIC(7,2),
+    taxi_in             NUMERIC(7,2)
+) PARTITION BY RANGE (flight_date);
+
+COMMENT ON TABLE dw.fact_vuelo IS
+    'Tabla de hechos. Un registro por vuelo. Particionada por rango mensual sobre flight_date.';
+
+-- =============================================================================
+-- PARTICIONES MENSUALES — 2023 (12 particiones)
+-- =============================================================================
+
+CREATE TABLE dw.fact_vuelo_2023_01 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2023-01-01') TO ('2023-02-01');
+CREATE TABLE dw.fact_vuelo_2023_02 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2023-02-01') TO ('2023-03-01');
+CREATE TABLE dw.fact_vuelo_2023_03 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2023-03-01') TO ('2023-04-01');
+CREATE TABLE dw.fact_vuelo_2023_04 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2023-04-01') TO ('2023-05-01');
+CREATE TABLE dw.fact_vuelo_2023_05 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2023-05-01') TO ('2023-06-01');
+CREATE TABLE dw.fact_vuelo_2023_06 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2023-06-01') TO ('2023-07-01');
+CREATE TABLE dw.fact_vuelo_2023_07 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2023-07-01') TO ('2023-08-01');
+CREATE TABLE dw.fact_vuelo_2023_08 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2023-08-01') TO ('2023-09-01');
+CREATE TABLE dw.fact_vuelo_2023_09 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2023-09-01') TO ('2023-10-01');
+CREATE TABLE dw.fact_vuelo_2023_10 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2023-10-01') TO ('2023-11-01');
+CREATE TABLE dw.fact_vuelo_2023_11 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2023-11-01') TO ('2023-12-01');
+CREATE TABLE dw.fact_vuelo_2023_12 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2023-12-01') TO ('2024-01-01');
+
+-- =============================================================================
+-- PARTICIONES MENSUALES — 2024 (12 particiones)
+-- =============================================================================
+
+CREATE TABLE dw.fact_vuelo_2024_01 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2024-01-01') TO ('2024-02-01');
+CREATE TABLE dw.fact_vuelo_2024_02 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2024-02-01') TO ('2024-03-01');
+CREATE TABLE dw.fact_vuelo_2024_03 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2024-03-01') TO ('2024-04-01');
+CREATE TABLE dw.fact_vuelo_2024_04 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2024-04-01') TO ('2024-05-01');
+CREATE TABLE dw.fact_vuelo_2024_05 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2024-05-01') TO ('2024-06-01');
+CREATE TABLE dw.fact_vuelo_2024_06 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2024-06-01') TO ('2024-07-01');
+CREATE TABLE dw.fact_vuelo_2024_07 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2024-07-01') TO ('2024-08-01');
+CREATE TABLE dw.fact_vuelo_2024_08 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2024-08-01') TO ('2024-09-01');
+CREATE TABLE dw.fact_vuelo_2024_09 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2024-09-01') TO ('2024-10-01');
+CREATE TABLE dw.fact_vuelo_2024_10 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2024-10-01') TO ('2024-11-01');
+CREATE TABLE dw.fact_vuelo_2024_11 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2024-11-01') TO ('2024-12-01');
+CREATE TABLE dw.fact_vuelo_2024_12 PARTITION OF dw.fact_vuelo
+    FOR VALUES FROM ('2024-12-01') TO ('2025-01-01');
+
+-- =============================================================================
+-- FOREIGN KEYS
+-- =============================================================================
+
+-- FK soportadas en tablas particionadas desde PostgreSQL 12 (verificado en docs oficiales).
+-- Se declaran en la tabla padre y PostgreSQL las propaga automáticamente a cada partición.
+-- IMPORTANTE: ejecutar DESPUÉS de cargar los datos con load.py,
+-- ya que la validación de FK sobre 14M filas es costosa en tiempo.
+
+ALTER TABLE dw.fact_vuelo
+    ADD CONSTRAINT fk_fact_tiempo
+    FOREIGN KEY (tiempo_sk) REFERENCES dw.dim_tiempo(tiempo_sk);
+
+ALTER TABLE dw.fact_vuelo
+    ADD CONSTRAINT fk_fact_aerolinea
+    FOREIGN KEY (aerolinea_sk) REFERENCES dw.dim_aerolinea(aerolinea_sk);
+
+ALTER TABLE dw.fact_vuelo
+    ADD CONSTRAINT fk_fact_origen
+    FOREIGN KEY (origen_sk) REFERENCES dw.dim_aeropuerto(aeropuerto_sk);
+
+ALTER TABLE dw.fact_vuelo
+    ADD CONSTRAINT fk_fact_destino
+    FOREIGN KEY (destino_sk) REFERENCES dw.dim_aeropuerto(aeropuerto_sk);
+
+-- =============================================================================
+-- INDICES ESTRATEGICOS
+-- Cada índice justificado por una consulta específica del dashboard
+-- Costo antes/después se documenta en technical-decisions.md tras EXPLAIN ANALYZE
+-- =============================================================================
+
+-- INDICE 1 — Simple sobre aerolinea_sk
+-- Consulta que lo motiva: retraso promedio por aerolínea (KPI del dashboard)
+--   SELECT a.nombre_aerolinea, AVG(f.arr_delay)
+--   FROM fact_vuelo f JOIN dim_aerolinea a USING (aerolinea_sk)
+--   GROUP BY a.nombre_aerolinea ORDER BY 2 DESC;
+CREATE INDEX idx_fact_aerolinea
+    ON dw.fact_vuelo (aerolinea_sk);
+
+-- INDICE 2 — Compuesto: flight_date + aerolinea_sk (requisito: al menos 1 compuesto)
+-- Consulta que lo motiva: tendencia mensual de retrasos por aerolínea (gráfico de líneas)
+--   SELECT f.flight_date, a.nombre_aerolinea, AVG(f.arr_delay)
+--   FROM fact_vuelo f JOIN dim_aerolinea a USING (aerolinea_sk)
+--   WHERE f.flight_date BETWEEN '2024-01-01' AND '2024-03-31'
+--   GROUP BY f.flight_date, a.nombre_aerolinea;
+CREATE INDEX idx_fact_fecha_aerolinea
+    ON dw.fact_vuelo (flight_date, aerolinea_sk);
+
+-- INDICE 3 — Simple sobre origen_sk
+-- Consulta que lo motiva: aeropuertos con más cancelaciones (mapa de calor)
+--   SELECT ap.iata_code, ap.estado_nombre, COUNT(*)
+--   FROM fact_vuelo f JOIN dim_aeropuerto ap ON f.origen_sk = ap.aeropuerto_sk
+--   WHERE f.cancelled = 1
+--   GROUP BY ap.iata_code, ap.estado_nombre ORDER BY 3 DESC LIMIT 20;
+CREATE INDEX idx_fact_origen
+    ON dw.fact_vuelo (origen_sk);
+
+-- =============================================================================
+-- VERIFICACION POST-CARGA (ejecutar manualmente)
+-- =============================================================================
+
+-- Verificar particiones creadas:
+-- SELECT tablename FROM pg_tables WHERE schemaname = 'dw' ORDER BY tablename;
+
+-- Verificar conteo por partición:
+-- SELECT tableoid::regclass AS particion, COUNT(*) AS filas
+-- FROM dw.fact_vuelo GROUP BY tableoid ORDER BY particion;

@@ -1,0 +1,1654 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20261.26.0410.0924                               -->
+<workbook original-version='18.1' source-build='2026.1.1 (20261.26.0410.0924)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <AccessibleZoneTabOrder />
+    <AnimationOnByDefault />
+    <AutoCreateAndUpdateDSDPhoneLayouts />
+    <IntuitiveSorting />
+    <IntuitiveSorting_SP2 />
+    <MarkAnimation />
+    <ObjectModelEncapsulateLegacy />
+    <ObjectModelRelationshipPerfOptions />
+    <ObjectModelTableType />
+    <SchemaViewerObjectModel />
+    <SetMembershipControl />
+    <SheetIdentifierTracking />
+    <SortTagCleanup />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' inline='true' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='localhost' name='postgres.0tigpv0103zjyp1chcr0o0hn4gnu'>
+            <connection authentication='username-password' class='postgres' dbname='airline_dw' one-time-sql='' port='5432' server='localhost' username='postgres' />
+          </named-connection>
+        </named-connections>
+        <relation type='collection'>
+          <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='fact_vuelo' table='[dw].[fact_vuelo]' type='table' />
+          <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_aerolinea' table='[dw].[dim_aerolinea]' type='table' />
+          <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_aeropuerto' table='[dw].[dim_aeropuerto]' type='table' />
+          <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_aeropuerto1' table='[dw].[dim_aeropuerto]' type='table' />
+          <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_tiempo' table='[dw].[dim_tiempo]' type='table' />
+        </relation>
+        <cols>
+          <map key='[aerolinea_sk (dim_aerolinea)]' value='[dim_aerolinea].[aerolinea_sk]' />
+          <map key='[aerolinea_sk]' value='[fact_vuelo].[aerolinea_sk]' />
+          <map key='[aeropuerto_sk (dim_aeropuerto1)]' value='[dim_aeropuerto1].[aeropuerto_sk]' />
+          <map key='[aeropuerto_sk]' value='[dim_aeropuerto].[aeropuerto_sk]' />
+          <map key='[air_time]' value='[fact_vuelo].[air_time]' />
+          <map key='[anio]' value='[dim_tiempo].[anio]' />
+          <map key='[arr_delay]' value='[fact_vuelo].[arr_delay]' />
+          <map key='[cancellation_code]' value='[fact_vuelo].[cancellation_code]' />
+          <map key='[cancelled]' value='[fact_vuelo].[cancelled]' />
+          <map key='[carrier_delay]' value='[fact_vuelo].[carrier_delay]' />
+          <map key='[ciudad (dim_aeropuerto1)]' value='[dim_aeropuerto1].[ciudad]' />
+          <map key='[ciudad]' value='[dim_aeropuerto].[ciudad]' />
+          <map key='[dep_delay]' value='[fact_vuelo].[dep_delay]' />
+          <map key='[destino_sk]' value='[fact_vuelo].[destino_sk]' />
+          <map key='[dia]' value='[dim_tiempo].[dia]' />
+          <map key='[dia_semana]' value='[dim_tiempo].[dia_semana]' />
+          <map key='[distance]' value='[fact_vuelo].[distance]' />
+          <map key='[diverted]' value='[fact_vuelo].[diverted]' />
+          <map key='[es_fin_semana]' value='[dim_tiempo].[es_fin_semana]' />
+          <map key='[estado_codigo (dim_aeropuerto1)]' value='[dim_aeropuerto1].[estado_codigo]' />
+          <map key='[estado_codigo]' value='[dim_aeropuerto].[estado_codigo]' />
+          <map key='[estado_nombre (dim_aeropuerto1)]' value='[dim_aeropuerto1].[estado_nombre]' />
+          <map key='[estado_nombre]' value='[dim_aeropuerto].[estado_nombre]' />
+          <map key='[fecha]' value='[dim_tiempo].[fecha]' />
+          <map key='[flight_date]' value='[fact_vuelo].[flight_date]' />
+          <map key='[flight_sk]' value='[fact_vuelo].[flight_sk]' />
+          <map key='[iata_code (dim_aeropuerto)]' value='[dim_aeropuerto].[iata_code]' />
+          <map key='[iata_code (dim_aeropuerto1)]' value='[dim_aeropuerto1].[iata_code]' />
+          <map key='[iata_code]' value='[dim_aerolinea].[iata_code]' />
+          <map key='[late_aircraft_delay]' value='[fact_vuelo].[late_aircraft_delay]' />
+          <map key='[mes]' value='[dim_tiempo].[mes]' />
+          <map key='[nas_delay]' value='[fact_vuelo].[nas_delay]' />
+          <map key='[nombre_aerolinea]' value='[dim_aerolinea].[nombre_aerolinea]' />
+          <map key='[nombre_dia]' value='[dim_tiempo].[nombre_dia]' />
+          <map key='[nombre_mes]' value='[dim_tiempo].[nombre_mes]' />
+          <map key='[origen_sk]' value='[fact_vuelo].[origen_sk]' />
+          <map key='[security_delay]' value='[fact_vuelo].[security_delay]' />
+          <map key='[taxi_in]' value='[fact_vuelo].[taxi_in]' />
+          <map key='[taxi_out]' value='[fact_vuelo].[taxi_out]' />
+          <map key='[tiempo_sk (dim_tiempo)]' value='[dim_tiempo].[tiempo_sk]' />
+          <map key='[tiempo_sk]' value='[fact_vuelo].[tiempo_sk]' />
+          <map key='[trimestre]' value='[dim_tiempo].[trimestre]' />
+          <map key='[weather_delay]' value='[fact_vuelo].[weather_delay]' />
+        </cols>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>flight_sk</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[flight_sk]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>flight_sk</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>19</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>tiempo_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[tiempo_sk]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>tiempo_sk</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>aerolinea_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[aerolinea_sk]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>aerolinea_sk</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>origen_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[origen_sk]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>origen_sk</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>destino_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[destino_sk]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>destino_sk</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>flight_date</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[flight_date]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>flight_date</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>dep_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[dep_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>dep_delay</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>arr_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[arr_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>arr_delay</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>air_time</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[air_time]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>air_time</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>distance</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[distance]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>distance</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>8</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>cancelled</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[cancelled]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>cancelled</remote-alias>
+            <ordinal>11</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>cancellation_code</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[cancellation_code]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>cancellation_code</remote-alias>
+            <ordinal>12</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>5</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>diverted</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[diverted]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>diverted</remote-alias>
+            <ordinal>13</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>carrier_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[carrier_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>carrier_delay</remote-alias>
+            <ordinal>14</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>weather_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[weather_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>weather_delay</remote-alias>
+            <ordinal>15</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>nas_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[nas_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>nas_delay</remote-alias>
+            <ordinal>16</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>security_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[security_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>security_delay</remote-alias>
+            <ordinal>17</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>late_aircraft_delay</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[late_aircraft_delay]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>late_aircraft_delay</remote-alias>
+            <ordinal>18</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>taxi_out</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[taxi_out]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>taxi_out</remote-alias>
+            <ordinal>19</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>taxi_in</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[taxi_in]</local-name>
+            <parent-name>[fact_vuelo]</parent-name>
+            <remote-alias>taxi_in</remote-alias>
+            <ordinal>20</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>7</precision>
+            <scale>2</scale>
+            <contains-null>true</contains-null>
+            <object-id>[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>aerolinea_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[aerolinea_sk (dim_aerolinea)]</local-name>
+            <parent-name>[dim_aerolinea]</parent-name>
+            <remote-alias>aerolinea_sk</remote-alias>
+            <ordinal>22</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_aerolinea (dw.dim_aerolinea)_AA7F44A2553242B6AF5CB1BED6C1F2E5]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>iata_code</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[iata_code]</local-name>
+            <parent-name>[dim_aerolinea]</parent-name>
+            <remote-alias>iata_code</remote-alias>
+            <ordinal>23</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>10</width>
+            <contains-null>false</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aerolinea (dw.dim_aerolinea)_AA7F44A2553242B6AF5CB1BED6C1F2E5]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>nombre_aerolinea</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[nombre_aerolinea]</local-name>
+            <parent-name>[dim_aerolinea]</parent-name>
+            <remote-alias>nombre_aerolinea</remote-alias>
+            <ordinal>24</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>100</width>
+            <contains-null>false</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aerolinea (dw.dim_aerolinea)_AA7F44A2553242B6AF5CB1BED6C1F2E5]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>aeropuerto_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[aeropuerto_sk]</local-name>
+            <parent-name>[dim_aeropuerto]</parent-name>
+            <remote-alias>aeropuerto_sk</remote-alias>
+            <ordinal>26</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>iata_code</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[iata_code (dim_aeropuerto)]</local-name>
+            <parent-name>[dim_aeropuerto]</parent-name>
+            <remote-alias>iata_code</remote-alias>
+            <ordinal>27</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>10</width>
+            <contains-null>false</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ciudad</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[ciudad]</local-name>
+            <parent-name>[dim_aeropuerto]</parent-name>
+            <remote-alias>ciudad</remote-alias>
+            <ordinal>28</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>100</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>estado_codigo</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[estado_codigo]</local-name>
+            <parent-name>[dim_aeropuerto]</parent-name>
+            <remote-alias>estado_codigo</remote-alias>
+            <ordinal>29</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>5</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>estado_nombre</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[estado_nombre]</local-name>
+            <parent-name>[dim_aeropuerto]</parent-name>
+            <remote-alias>estado_nombre</remote-alias>
+            <ordinal>30</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>100</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>aeropuerto_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[aeropuerto_sk (dim_aeropuerto1)]</local-name>
+            <parent-name>[dim_aeropuerto1]</parent-name>
+            <remote-alias>aeropuerto_sk</remote-alias>
+            <ordinal>32</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>iata_code</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[iata_code (dim_aeropuerto1)]</local-name>
+            <parent-name>[dim_aeropuerto1]</parent-name>
+            <remote-alias>iata_code</remote-alias>
+            <ordinal>33</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>10</width>
+            <contains-null>false</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ciudad</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[ciudad (dim_aeropuerto1)]</local-name>
+            <parent-name>[dim_aeropuerto1]</parent-name>
+            <remote-alias>ciudad</remote-alias>
+            <ordinal>34</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>100</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>estado_codigo</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[estado_codigo (dim_aeropuerto1)]</local-name>
+            <parent-name>[dim_aeropuerto1]</parent-name>
+            <remote-alias>estado_codigo</remote-alias>
+            <ordinal>35</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>5</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>estado_nombre</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[estado_nombre (dim_aeropuerto1)]</local-name>
+            <parent-name>[dim_aeropuerto1]</parent-name>
+            <remote-alias>estado_nombre</remote-alias>
+            <ordinal>36</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>100</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>tiempo_sk</remote-name>
+            <remote-type>3</remote-type>
+            <local-name>[tiempo_sk (dim_tiempo)]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>tiempo_sk</remote-alias>
+            <ordinal>38</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>10</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>fecha</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[fecha]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>fecha</remote-alias>
+            <ordinal>39</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>dia</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[dia]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>dia</remote-alias>
+            <ordinal>40</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>mes</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[mes]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>mes</remote-alias>
+            <ordinal>41</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>nombre_mes</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[nombre_mes]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>nombre_mes</remote-alias>
+            <ordinal>42</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>20</width>
+            <contains-null>false</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>trimestre</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[trimestre]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>trimestre</remote-alias>
+            <ordinal>43</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>anio</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[anio]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>anio</remote-alias>
+            <ordinal>44</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>dia_semana</remote-name>
+            <remote-type>2</remote-type>
+            <local-name>[dia_semana]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>dia_semana</remote-alias>
+            <ordinal>45</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>5</precision>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>nombre_dia</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[nombre_dia]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>nombre_dia</remote-alias>
+            <ordinal>46</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>20</width>
+            <contains-null>false</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>es_fin_semana</remote-name>
+            <remote-type>11</remote-type>
+            <local-name>[es_fin_semana]</local-name>
+            <parent-name>[dim_tiempo]</parent-name>
+            <remote-alias>es_fin_semana</remote-alias>
+            <ordinal>47</ordinal>
+            <local-type>boolean</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>false</contains-null>
+            <object-id>[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]</object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='%Cancelados' datatype='real' name='[Calculation_0668842710700033]' role='measure' type='ordinal'>
+        <calculation class='tableau' formula='AVG([cancelled]) * 100' />
+      </column>
+      <column caption='dim_aerolinea' datatype='table' name='[__tableau_internal_object_id__].[dim_aerolinea (dw.dim_aerolinea)_AA7F44A2553242B6AF5CB1BED6C1F2E5]' role='measure' type='quantitative' />
+      <column caption='dim_aeropuerto' datatype='table' name='[__tableau_internal_object_id__].[dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD]' role='measure' type='quantitative' />
+      <column caption='dim_aeropuerto1' datatype='table' name='[__tableau_internal_object_id__].[dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135]' role='measure' type='quantitative' />
+      <column caption='dim_tiempo' datatype='table' name='[__tableau_internal_object_id__].[dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477]' role='measure' type='quantitative' />
+      <column caption='fact_vuelo' datatype='table' name='[__tableau_internal_object_id__].[fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73]' role='measure' type='quantitative' />
+      <column aggregation='Sum' caption='Aerolinea Sk (Dim Aerolinea)' datatype='integer' name='[aerolinea_sk (dim_aerolinea)]' role='dimension' type='ordinal' />
+      <column aggregation='Sum' caption='Aerolinea Sk' datatype='integer' name='[aerolinea_sk]' role='dimension' type='ordinal' />
+      <column aggregation='Sum' caption='Aeropuerto Sk (Dim Aeropuerto1)' datatype='integer' name='[aeropuerto_sk (dim_aeropuerto1)]' role='dimension' type='ordinal' />
+      <column aggregation='Sum' caption='Aeropuerto Sk' datatype='integer' name='[aeropuerto_sk]' role='dimension' type='ordinal' />
+      <column caption='Air Time' datatype='real' name='[air_time]' role='measure' type='quantitative' />
+      <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+      <column caption='Arr Delay' datatype='real' name='[arr_delay]' role='measure' type='quantitative' />
+      <column caption='Cancellation Code' datatype='string' name='[cancellation_code]' role='dimension' type='nominal' />
+      <column caption='Cancelled' datatype='integer' name='[cancelled]' role='measure' type='quantitative' />
+      <column caption='Carrier Delay' datatype='real' name='[carrier_delay]' role='measure' type='quantitative' />
+      <column caption='Ciudad (Dim Aeropuerto1)' datatype='string' name='[ciudad (dim_aeropuerto1)]' role='dimension' type='nominal' />
+      <column caption='Ciudad' datatype='string' name='[ciudad]' role='dimension' semantic-role='[City].[Name]' type='nominal' />
+      <column caption='Dep Delay' datatype='real' name='[dep_delay]' role='measure' type='quantitative' />
+      <column aggregation='Sum' caption='Destino Sk' datatype='integer' name='[destino_sk]' role='dimension' type='ordinal' />
+      <column caption='Dia' datatype='integer' name='[dia]' role='dimension' type='quantitative' />
+      <column caption='Dia Semana' datatype='integer' name='[dia_semana]' role='dimension' type='quantitative' />
+      <column caption='Distance' datatype='real' name='[distance]' role='measure' type='quantitative' />
+      <column caption='Diverted' datatype='integer' name='[diverted]' role='measure' type='quantitative' />
+      <column caption='Es Fin Semana' datatype='boolean' name='[es_fin_semana]' role='dimension' type='nominal' />
+      <column caption='Estado Codigo (Dim Aeropuerto1)' datatype='string' name='[estado_codigo (dim_aeropuerto1)]' role='dimension' type='nominal' />
+      <column caption='Estado Codigo' datatype='string' name='[estado_codigo]' role='dimension' type='nominal' />
+      <column caption='Estado Nombre (Dim Aeropuerto1)' datatype='string' name='[estado_nombre (dim_aeropuerto1)]' role='dimension' type='nominal' />
+      <column caption='Estado Nombre' datatype='string' name='[estado_nombre]' role='dimension' type='nominal' />
+      <column caption='Fecha' datatype='date' name='[fecha]' role='dimension' type='ordinal' />
+      <column caption='Flight Date' datatype='date' name='[flight_date]' role='dimension' type='ordinal' />
+      <column caption='Flight Sk' datatype='integer' name='[flight_sk]' role='measure' type='quantitative' />
+      <column caption='Iata Code (Dim Aeropuerto)' datatype='string' name='[iata_code (dim_aeropuerto)]' role='dimension' type='nominal' />
+      <column caption='Iata Code (Dim Aeropuerto1)' datatype='string' name='[iata_code (dim_aeropuerto1)]' role='dimension' type='nominal' />
+      <column caption='Iata Code' datatype='string' name='[iata_code]' role='dimension' type='nominal' />
+      <column caption='Late Aircraft Delay' datatype='real' name='[late_aircraft_delay]' role='measure' type='quantitative' />
+      <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+      <column caption='Nas Delay' datatype='real' name='[nas_delay]' role='measure' type='quantitative' />
+      <column caption='Nombre Aerolinea' datatype='string' name='[nombre_aerolinea]' role='dimension' type='nominal' />
+      <column caption='Nombre Dia' datatype='string' name='[nombre_dia]' role='dimension' type='nominal' />
+      <column caption='Nombre Mes' datatype='string' name='[nombre_mes]' role='dimension' type='nominal' />
+      <column aggregation='Sum' caption='Origen Sk' datatype='integer' name='[origen_sk]' role='dimension' type='ordinal' />
+      <column caption='Security Delay' datatype='real' name='[security_delay]' role='measure' type='quantitative' />
+      <column caption='Taxi In' datatype='real' name='[taxi_in]' role='measure' type='quantitative' />
+      <column caption='Taxi Out' datatype='real' name='[taxi_out]' role='measure' type='quantitative' />
+      <column aggregation='Sum' caption='Tiempo Sk (Dim Tiempo)' datatype='integer' name='[tiempo_sk (dim_tiempo)]' role='dimension' type='ordinal' />
+      <column aggregation='Sum' caption='Tiempo Sk' datatype='integer' name='[tiempo_sk]' role='dimension' type='ordinal' />
+      <column caption='Trimestre' datatype='integer' name='[trimestre]' role='dimension' type='quantitative' />
+      <column caption='Weather Delay' datatype='real' name='[weather_delay]' role='measure' type='quantitative' />
+      <column-instance column='[carrier_delay]' derivation='Avg' name='[avg:carrier_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[late_aircraft_delay]' derivation='Avg' name='[avg:late_aircraft_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[nas_delay]' derivation='Avg' name='[avg:nas_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[weather_delay]' derivation='Avg' name='[avg:weather_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+      <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+      <column-instance column='[carrier_delay]' derivation='Sum' name='[sum:carrier_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[late_aircraft_delay]' derivation='Sum' name='[sum:late_aircraft_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[nas_delay]' derivation='Sum' name='[sum:nas_delay:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[weather_delay]' derivation='Sum' name='[sum:weather_delay:qk]' pivot='key' type='quantitative' />
+      <group caption='Acción (Anio,Mes)' hidden='true' name='[Action (Anio,Mes)]' name-style='unqualified' user:auto-column='sheet_link'>
+        <groupfilter function='crossjoin'>
+          <groupfilter function='level-members' level='[none:anio:ok]' />
+          <groupfilter function='level-members' level='[none:mes:ok]' />
+        </groupfilter>
+      </group>
+      <layout dim-ordering='alphabetic' measure-ordering='alphabetic' rowDisplayCount='10' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[:Measure Names]' type='palette'>
+            <map to='#4e79a7'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4]&quot;</bucket>
+            </map>
+            <map to='#59a14f'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:weather_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#59a14f'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[sum:weather_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:nas_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[sum:nas_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:late_aircraft_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[sum:late_aircraft_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:carrier_delay:qk]&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[sum:carrier_delay:qk]&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;Guatemala&quot;' />
+      </semantic-values>
+      <field-sort-info field-sort-order-type='custom-order'>
+        <field-sort-custom-order field='aeropuerto_sk' />
+        <field-sort-custom-order field='iata_code (dim_aeropuerto)' />
+        <field-sort-custom-order field='ciudad' />
+        <field-sort-custom-order field='estado_codigo' />
+        <field-sort-custom-order field='estado_nombre' />
+      </field-sort-info>
+      <object-graph>
+        <objects>
+          <object caption='dim_aerolinea' id='dim_aerolinea (dw.dim_aerolinea)_AA7F44A2553242B6AF5CB1BED6C1F2E5'>
+            <properties context=''>
+              <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_aerolinea' table='[dw].[dim_aerolinea]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_aeropuerto' id='dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD'>
+            <properties context=''>
+              <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_aeropuerto' table='[dw].[dim_aeropuerto]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_aeropuerto1' id='dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135'>
+            <properties context=''>
+              <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_aeropuerto1' table='[dw].[dim_aeropuerto]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_tiempo' id='dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477'>
+            <properties context=''>
+              <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='dim_tiempo' table='[dw].[dim_tiempo]' type='table' />
+            </properties>
+          </object>
+          <object caption='fact_vuelo' id='fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73'>
+            <properties context=''>
+              <relation connection='postgres.0tigpv0103zjyp1chcr0o0hn4gnu' name='fact_vuelo' table='[dw].[fact_vuelo]' type='table' />
+            </properties>
+          </object>
+        </objects>
+        <relationships>
+          <relationship>
+            <expression op='='>
+              <expression op='[aerolinea_sk]' />
+              <expression op='[aerolinea_sk (dim_aerolinea)]' />
+            </expression>
+            <first-end-point guaranteed-value='true' is-db-set-guaranteed-value='true' object-id='fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73' />
+            <second-end-point is-db-set-unique-key='true' object-id='dim_aerolinea (dw.dim_aerolinea)_AA7F44A2553242B6AF5CB1BED6C1F2E5' unique-key='true' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[origen_sk]' />
+              <expression op='[aeropuerto_sk]' />
+            </expression>
+            <first-end-point guaranteed-value='true' is-db-set-guaranteed-value='true' object-id='fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73' />
+            <second-end-point is-db-set-unique-key='true' object-id='dim_aeropuerto (dw.dim_aeropuerto)_3868133F6AFF43719B4290C5C4340CBD' unique-key='true' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[destino_sk]' />
+              <expression op='[aeropuerto_sk (dim_aeropuerto1)]' />
+            </expression>
+            <first-end-point guaranteed-value='true' is-db-set-guaranteed-value='true' object-id='fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73' />
+            <second-end-point is-db-set-unique-key='true' object-id='dim_aeropuerto (dw.dim_aeropuerto)_5D3ACFF6EDF64765B4566B3DB477F135' unique-key='true' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[tiempo_sk]' />
+              <expression op='[tiempo_sk (dim_tiempo)]' />
+            </expression>
+            <first-end-point guaranteed-value='true' is-db-set-guaranteed-value='true' object-id='fact_vuelo (dw.fact_vuelo)_E673871FAB5F4177A2298090F913AB73' />
+            <second-end-point is-db-set-unique-key='true' object-id='dim_tiempo (dw.dim_tiempo)_EE0B7C5BE9A341DFA74699851CB9F477' unique-key='true' />
+          </relationship>
+        </relationships>
+      </object-graph>
+    </datasource>
+  </datasources>
+  <actions>
+    <action caption='Filtro 1 (generado)' name='[Action1_60AA50326EBD4DBD9D9B5F4BF93D5A31]'>
+      <activation auto-clear='true' type='on-select' />
+      <source dashboard='Dashboard 1' type='sheet' worksheet='Tendencia Mensual Retrasos' />
+      <command command='tsc:tsl-filter'>
+        <param name='special-fields' value='all' />
+        <param name='target' value='Dashboard 1' />
+      </command>
+    </action>
+  </actions>
+  <worksheets>
+    <worksheet name='Causas Retraso'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1oyvysu07n1wsp1d8hwsb14cafv4'>
+            <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+            <column-instance column='[carrier_delay]' derivation='Avg' name='[avg:carrier_delay:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[late_aircraft_delay]' derivation='Avg' name='[avg:late_aircraft_delay:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[nas_delay]' derivation='Avg' name='[avg:nas_delay:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[weather_delay]' derivation='Avg' name='[avg:weather_delay:qk]' pivot='key' type='quantitative' />
+            <column caption='Carrier Delay' datatype='real' name='[carrier_delay]' role='measure' type='quantitative' />
+            <column caption='Late Aircraft Delay' datatype='real' name='[late_aircraft_delay]' role='measure' type='quantitative' />
+            <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+            <column caption='Nas Delay' datatype='real' name='[nas_delay]' role='measure' type='quantitative' />
+            <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[trimestre]' derivation='None' name='[none:trimestre:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[weather_delay]' derivation='Sum' name='[sum:weather_delay:qk]' pivot='key' type='quantitative' />
+            <column caption='Trimestre' datatype='integer' name='[trimestre]' role='dimension' type='quantitative' />
+            <column caption='Weather Delay' datatype='real' name='[weather_delay]' role='measure' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]'>
+            <groupfilter function='union' user:op='manual'>
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:carrier_delay:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:late_aircraft_delay:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:nas_delay:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:weather_delay:qk]&quot;' />
+            </groupfilter>
+          </filter>
+          <manual-sort column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]' direction='ASC'>
+            <dictionary>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:carrier_delay:qk]&quot;</bucket>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:late_aircraft_delay:qk]&quot;</bucket>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:nas_delay:qk]&quot;</bucket>
+              <bucket>&quot;[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[sum:weather_delay:qk]&quot;</bucket>
+            </dictionary>
+          </manual-sort>
+          <filter class='categorical' column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]'>
+            <groupfilter function='crossjoin' user:ui-action-filter='[Action1_60AA50326EBD4DBD9D9B5F4BF93D5A31]' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:anio:ok]' member='2024' />
+              <groupfilter function='member' level='[none:mes:ok]' member='5' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]</column>
+            <column>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Multiple Values]</rows>
+        <cols>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:trimestre:qk]</cols>
+      </table>
+      <simple-id uuid='{B20C5B72-7F8F-4C73-BF33-2240C6CEBC08}' />
+    </worksheet>
+    <worksheet name='KPI Porcentaje Cancelados'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run>%Cancelados</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1oyvysu07n1wsp1d8hwsb14cafv4'>
+            <column caption='%Cancelados' datatype='real' name='[Calculation_0668842710700033]' role='measure' type='ordinal'>
+              <calculation class='tableau' formula='AVG([cancelled]) * 100' />
+            </column>
+            <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+            <column caption='Cancelled' datatype='integer' name='[cancelled]' role='measure' type='quantitative' />
+            <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+            <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_0668842710700033]' derivation='User' name='[usr:Calculation_0668842710700033:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]'>
+            <groupfilter function='crossjoin' user:ui-action-filter='[Action1_60AA50326EBD4DBD9D9B5F4BF93D5A31]' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:anio:ok]' member='2024' />
+              <groupfilter function='member' level='[none:mes:ok]' member='5' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='cell'>
+            <format attr='text-format' data-class='total' field='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[usr:Calculation_0668842710700033:qk]' value='p0.00%' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='text-format' field='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[usr:Calculation_0668842710700033:qk]' value='p0.00%' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <text column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[usr:Calculation_0668842710700033:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{BBE2FAD0-E505-4880-963A-9E819111C037}' />
+    </worksheet>
+    <worksheet name='KPI Retraso Promedio'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run fontalignment='1'>Retraso Promedio</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1oyvysu07n1wsp1d8hwsb14cafv4'>
+            <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+            <column caption='Arr Delay' datatype='real' name='[arr_delay]' role='measure' type='quantitative' />
+            <column-instance column='[arr_delay]' derivation='Avg' name='[avg:arr_delay:qk]' pivot='key' type='quantitative' />
+            <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+            <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]'>
+            <groupfilter function='crossjoin' user:ui-action-filter='[Action1_60AA50326EBD4DBD9D9B5F4BF93D5A31]' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:anio:ok]' member='2024' />
+              <groupfilter function='member' level='[none:mes:ok]' member='5' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <text column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{3F574643-24C2-4868-B936-25E95C635218}' />
+    </worksheet>
+    <worksheet name='KPI Total Vuelos'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run>Total Vuelos</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1oyvysu07n1wsp1d8hwsb14cafv4'>
+            <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+            <column-instance column='[flight_sk]' derivation='Count' name='[cnt:flight_sk:qk]' pivot='key' type='quantitative' />
+            <column caption='Flight Sk' datatype='integer' name='[flight_sk]' role='measure' type='quantitative' />
+            <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+            <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]'>
+            <groupfilter function='crossjoin' user:ui-action-filter='[Action1_60AA50326EBD4DBD9D9B5F4BF93D5A31]' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:anio:ok]' member='2024' />
+              <groupfilter function='member' level='[none:mes:ok]' member='5' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <text column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[cnt:flight_sk:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='mark-labels-show' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{1CC88E16-0C9C-4D56-AFB5-6E3A24601D39}' />
+    </worksheet>
+    <worksheet name='Retraso por Aerolinea'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1oyvysu07n1wsp1d8hwsb14cafv4'>
+            <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+            <column caption='Arr Delay' datatype='real' name='[arr_delay]' role='measure' type='quantitative' />
+            <column-instance column='[arr_delay]' derivation='Avg' name='[avg:arr_delay:qk]' pivot='key' type='quantitative' />
+            <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+            <column caption='Nombre Aerolinea' datatype='string' name='[nombre_aerolinea]' role='dimension' type='nominal' />
+            <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[nombre_aerolinea]' derivation='None' name='[none:nombre_aerolinea:nk]' pivot='key' type='nominal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]'>
+            <groupfilter function='crossjoin' user:ui-action-filter='[Action1_60AA50326EBD4DBD9D9B5F4BF93D5A31]' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:anio:ok]' member='2024' />
+              <groupfilter function='member' level='[none:mes:ok]' member='5' />
+            </groupfilter>
+          </filter>
+          <shelf-sorts>
+            <shelf-sort-v2 dimension-to-sort='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:nombre_aerolinea:nk]' direction='DESC' is-on-innermost-dimension='true' measure-to-sort-by='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' shelf='rows' />
+          </shelf-sorts>
+          <slices>
+            <column>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[Action (Anio,Mes)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='cell'>
+            <format attr='width' value='702' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='width' field='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:nombre_aerolinea:nk]' value='128' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' />
+              <text column='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='mark-labels-show' value='true' />
+              </style-rule>
+              <style-rule element='pane'>
+                <format attr='minwidth' value='-1' />
+                <format attr='maxwidth' value='-1' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:nombre_aerolinea:nk]</rows>
+        <cols>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]</cols>
+      </table>
+      <simple-id uuid='{A36478B3-6B0A-4D2E-9A21-E544A50BD9E4}' />
+    </worksheet>
+    <worksheet name='Tendencia Mensual Retrasos'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_vuelo (dw.fact_vuelo)+ (airline_dw)' name='federated.1oyvysu07n1wsp1d8hwsb14cafv4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1oyvysu07n1wsp1d8hwsb14cafv4'>
+            <column caption='Anio' datatype='integer' name='[anio]' role='measure' type='quantitative' />
+            <column caption='Arr Delay' datatype='real' name='[arr_delay]' role='measure' type='quantitative' />
+            <column-instance column='[arr_delay]' derivation='Avg' name='[avg:arr_delay:qk]' pivot='key' type='quantitative' />
+            <column caption='Mes' datatype='integer' name='[mes]' role='dimension' type='quantitative' />
+            <column-instance column='[anio]' derivation='None' name='[none:anio:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[mes]' derivation='None' name='[none:mes:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Line' />
+          </pane>
+        </panes>
+        <rows>[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]</rows>
+        <cols>([federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:anio:ok] / [federated.1oyvysu07n1wsp1d8hwsb14cafv4].[none:mes:ok])</cols>
+      </table>
+      <simple-id uuid='{D5746C49-96D8-4182-B2A2-EB5FEF08C038}' />
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard enable-sort-zone-taborder='true' name='Dashboard 1'>
+      <style />
+      <size maxheight='800' maxwidth='1000' minheight='800' minwidth='1000' preset-index='1' sizing-mode='fixed' />
+      <zones>
+        <zone h='100000' id='4' type-v2='layout-basic' w='100000' x='0' y='0'>
+          <zone h='89092' id='25' is-fixed='true' type-v2='layout-basic' w='98400' x='800' y='9908'>
+            <zone h='89092' id='8' param='horz' type-v2='layout-flow' w='79100' x='800' y='9908'>
+              <zone h='89092' id='6' type-v2='layout-basic' w='79100' x='800' y='9908'>
+                <zone h='44545' id='3' name='Tendencia Mensual Retrasos' w='79100' x='800' y='9908'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='44547' id='10' name='Causas Retraso' w='39553' x='40347' y='54453'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='44547' id='12' name='Retraso por Aerolinea' w='39547' x='800' y='54453'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+              </zone>
+            </zone>
+            <zone h='89092' id='26' param='horz' type-v2='layout-flow' w='19300' x='79900' y='9908'>
+              <zone fixed-size='160' h='89092' id='7' is-fixed='true' param='vert' type-v2='layout-flow' w='19300' x='79900' y='9908'>
+                <zone h='14250' id='11' name='Causas Retraso' pane-specification-id='0' param='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]' type-v2='color' w='19300' x='79900' y='9908'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='9125' id='13' name='Retraso por Aerolinea' pane-specification-id='0' param='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' type-v2='color' w='19300' x='79900' y='24158'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+              </zone>
+            </zone>
+          </zone>
+          <zone h='8908' id='14' name='KPI Total Vuelos' show-title='false' w='10686' x='11484' y='1000'>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone h='8908' id='16' name='KPI Porcentaje Cancelados' show-title='false' w='19258' x='79942' y='1000'>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone h='8908' id='21' name='KPI Retraso Promedio' show-title='false' w='19257' x='41427' y='1000'>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone forceUpdate='true' h='8908' id='22' type-v2='text' w='10684' x='800' y='1000'>
+            <formatted-text>
+              <run>Total Vuelos</run>
+            </formatted-text>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone h='8908' id='23' type-v2='text' w='19257' x='22170' y='1000'>
+            <formatted-text>
+              <run>Retraso Promedio</run>
+            </formatted-text>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone h='8908' id='24' type-v2='text' w='19258' x='60684' y='1000'>
+            <formatted-text>
+              <run>Porcentaje Cancelados</run>
+            </formatted-text>
+            <zone-style>
+              <format attr='border-color' value='#000000' />
+              <format attr='border-style' value='none' />
+              <format attr='border-width' value='0' />
+              <format attr='margin' value='4' />
+            </zone-style>
+          </zone>
+          <zone-style>
+            <format attr='border-color' value='#000000' />
+            <format attr='border-style' value='none' />
+            <format attr='border-width' value='0' />
+            <format attr='margin' value='8' />
+          </zone-style>
+        </zone>
+      </zones>
+      <devicelayouts>
+        <devicelayout name='Desktop'>
+          <size maxheight='1180' minheight='1180' sizing-mode='vscroll' />
+        </devicelayout>
+        <devicelayout auto-generated='true' name='Phone'>
+          <size maxheight='1450' minheight='1450' sizing-mode='vscroll' />
+          <zones>
+            <zone h='100000' id='30' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98000' id='29' param='vert' type-v2='layout-flow' w='98400' x='800' y='1000'>
+                <zone forceUpdate='true' h='8908' id='22' type-v2='text' w='10684' x='800' y='1000'>
+                  <formatted-text>
+                    <run>Total Vuelos</run>
+                  </formatted-text>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='63' h='8908' id='14' is-fixed='true' name='KPI Total Vuelos' show-title='false' w='10686' x='11484' y='1000'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='8908' id='23' type-v2='text' w='19257' x='22170' y='1000'>
+                  <formatted-text>
+                    <run>Retraso Promedio</run>
+                  </formatted-text>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='63' h='8908' id='21' is-fixed='true' name='KPI Retraso Promedio' show-title='false' w='19257' x='41427' y='1000'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='8908' id='24' type-v2='text' w='19258' x='60684' y='1000'>
+                  <formatted-text>
+                    <run>Porcentaje Cancelados</run>
+                  </formatted-text>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='63' h='8908' id='16' is-fixed='true' name='KPI Porcentaje Cancelados' show-title='false' w='19258' x='79942' y='1000'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='44545' id='3' is-fixed='true' name='Tendencia Mensual Retrasos' w='79100' x='800' y='9908'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='44547' id='12' is-fixed='true' name='Retraso por Aerolinea' w='39547' x='800' y='54453'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='9125' id='13' name='Retraso por Aerolinea' pane-specification-id='0' param='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' type-v2='color' w='19300' x='79900' y='24158'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='44547' id='10' is-fixed='true' name='Causas Retraso' w='39553' x='40347' y='54453'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='14250' id='11' name='Causas Retraso' pane-specification-id='0' param='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]' type-v2='color' w='19300' x='79900' y='9908'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+              </zone>
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='8' />
+              </zone-style>
+            </zone>
+          </zones>
+        </devicelayout>
+      </devicelayouts>
+      <simple-id uuid='{A0934DF3-C6E3-4395-8538-8DA6B18B9F17}' />
+    </dashboard>
+  </dashboards>
+  <windows saved-dpi-scale-factor='1.25' source-height='37'>
+    <window class='worksheet' name='Tendencia Mensual Retrasos'>
+      <cards>
+        <edge name='left'>
+          <strip size='100'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{FAB5818C-CFF1-4FF0-8354-D0F053E86F76}' />
+    </window>
+    <window class='worksheet' name='Retraso por Aerolinea'>
+      <cards>
+        <edge name='left'>
+          <strip size='299'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='174'>
+            <card pane-specification-id='0' param='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[avg:arr_delay:qk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{8651A98D-00B4-4234-BE61-CA9F50ABF231}' />
+    </window>
+    <window class='worksheet' name='KPI Total Vuelos'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{A0A3C2E4-FBC2-49B7-B061-995DD832C440}' />
+    </window>
+    <window class='worksheet' name='KPI Retraso Promedio'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{DC4FB988-DFAA-4C4B-9E9E-0B02D732E21F}' />
+    </window>
+    <window class='worksheet' name='KPI Porcentaje Cancelados'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{BB8BD3E4-1546-42E2-874C-9982FACD2F6A}' />
+    </window>
+    <window class='worksheet' name='Causas Retraso'>
+      <cards>
+        <edge name='left'>
+          <strip size='257'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+            <card type='measures' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='174'>
+            <card pane-specification-id='0' param='[federated.1oyvysu07n1wsp1d8hwsb14cafv4].[:Measure Names]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{32C8DC8A-4313-4134-8D95-6424C30D4C60}' />
+    </window>
+    <window class='dashboard' maximized='true' name='Dashboard 1'>
+      <viewpoints>
+        <viewpoint name='Causas Retraso'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='KPI Porcentaje Cancelados' />
+        <viewpoint name='KPI Retraso Promedio' />
+        <viewpoint name='KPI Total Vuelos' />
+        <viewpoint name='Retraso por Aerolinea' />
+        <viewpoint name='Tendencia Mensual Retrasos'>
+          <zoom type='entire-view' />
+        </viewpoint>
+      </viewpoints>
+      <active id='3' />
+      <device-preview visible='true' />
+      <simple-id uuid='{5A346ABC-02C1-43F2-9629-244F4248FCF8}' />
+    </window>
+  </windows>
+</workbook>
