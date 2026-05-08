@@ -250,7 +250,9 @@ def run():
         load_dim_aerolinea(conn)
         load_dim_aeropuerto(conn)
         load_fact_vuelo(conn)
-        apply_fk_and_indexes(conn)
+        # FK e índices ya fueron creados por ddl_schema.sql.
+# No volver a ejecutar aquí para evitar errores de objetos duplicados.
+       # ─── apply_fk_and_indexes(conn)
         verificar_carga(conn)
 
     except Exception as e:

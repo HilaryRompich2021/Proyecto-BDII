@@ -1,6 +1,20 @@
 # Proyecto Final — Base de Datos II (031)
 **Universidad Mariano Gálvez de Guatemala**  
-Facultad de Ingeniería en Sistemas de Información y Ciencias de la Computación
+**Facultad de Ingeniería en Sistemas de Información y Ciencias de la Computación**
+
+---
+
+## Descripción general
+
+Este proyecto implementa un pipeline ETL y un Data Warehouse analítico sobre el dataset **Airline On-Time Performance** del **Bureau of Transportation Statistics (BTS / U.S. DOT)**.
+
+El flujo completo incluye:
+
+1. **Extracción** automática de archivos mensuales 2023–2024  
+2. **Transformación** y limpieza de datos  
+3. **Carga** a PostgreSQL en un esquema dimensional optimizado  
+4. **Análisis técnico** con `EXPLAIN ANALYZE`  
+5. **Dashboard** conectado directamente a PostgreSQL  
 
 ---
 
@@ -8,53 +22,50 @@ Facultad de Ingeniería en Sistemas de Información y Ciencias de la Computació
 
 **Fuente:** Airline On-Time Performance — Bureau of Transportation Statistics (BTS / U.S. DOT)  
 **Años:** 2023 y 2024 (24 meses completos)  
-**Volumen:** 14,825,707 registros en `fact_vuelo`  
+**Volumen final cargado:** **14,825,707 registros** en `dw.fact_vuelo`
+
 **URL base de descarga:**
-```
+```text
 https://transtats.bts.gov/PREZIP/On_Time_Marketing_Carrier_On_Time_Performance_Beginning_January_2018_{year}_{month}.zip
 ```
 
 ---
 
-## Preguntas de negocio del dashboard
+## Preguntas de negocio
 
-> Definidas antes de construir el dashboard — requisito del proyecto
+Las preguntas de negocio definidas para el dashboard son:
 
 1. ¿Qué aerolínea tiene el mayor retraso promedio de llegada en 2023–2024?
 2. ¿Cuál es la tendencia mensual de retrasos a lo largo de los dos años?
 3. ¿Qué aeropuertos de origen concentran más cancelaciones?
-4. ¿Qué causa de retraso (clima, aerolínea, NAS, aeronave tardía) es más frecuente por trimestre?
+4. ¿Cómo se distribuyen los retrasos de llegada en el período analizado?
 
 ---
 
 ## Estructura del repositorio
 
-```
+```text
 PROYECTO-BDII/
 ├── docs/
-│   ├── airline_dashboard.pdf     # capturas del dashboard como respaldo
-│   ├── model_diagram.png         # diagrama dimensional del esquema estrella
-│   ├── technical-decisions.md    # decisiones técnicas con evidencia EXPLAIN ANALYZE
-│   └── dashboard-doc.md          # documentación de cada visualización del dashboard
+│   ├── airline_dashboard.pdf
+│   ├── dashboard-doc.md
+│   ├── model_diagram.png
+│   └── technical-decisions.md
 ├── etl/
-│   ├── extract.py                # descarga 24 ZIPs de BTS automáticamente
-│   ├── transform.py              # limpieza, dimensiones, surrogate keys → Parquet
-│   └── load.py                   # ejecuta DDL + carga COPY + índices + FK
+│   ├── extract.py
+│   ├── transform.py
+│   └── load.py
 ├── sql/
-│   ├── ddl_schema.sql            # CREATE TABLE + 24 particiones (ejecutado por load.py)
-│   └── queries_analyze.sql       # consultas EXPLAIN ANALYZE (ejecución manual en pgAdmin)
-├── staging/                      # generado automáticamente por el pipeline
-│   ├── raw/                      # ZIPs descargados por extract.py
-│   ├── extracted/                # CSVs descomprimidos por extract.py
-│   ├── transformed/              # Parquets generados por transform.py
-│   │   ├── dim_aerolinea.parquet
-│   │   ├── dim_aeropuerto.parquet
-│   │   ├── dim_tiempo.parquet
-│   │   └── fact_vuelo/           # 24 archivos fact_YYYY_MM.parquet
-│   ├── extract.log               # log de descarga
-│   ├── transform.log             # log de transformación
-│   └── load.log                  # log de carga (incluye tiempo total)
-├── airline_dashboard.twb         # dashboard Tableau (requiere PostgreSQL activo)
+│   ├── ddl_schema.sql
+│   └── queries_analyze.sql
+├── staging/
+│   ├── raw/
+│   ├── extracted/
+│   ├── transformed/
+│   ├── extract.log
+│   ├── transform.log
+│   └── load.log
+├── airline_dashboard.twb
 ├── requirements.txt
 └── README.md
 ```
@@ -63,18 +74,19 @@ PROYECTO-BDII/
 
 ## Requisitos
 
-**Software necesario:**
+### Software necesario
 - Python 3.9+
-- PostgreSQL 14+ instalado localmente
-- Tableau Desktop (para abrir `airline_dashboard.twb`)
+- Docker Desktop
+- PostgreSQL ejecutándose en contenedor Docker
+- Tableau Desktop o Power BI Desktop
 
-**Instalar dependencias Python:**
+### Dependencias Python
 ```bash
 pip install -r requirements.txt
 ```
 
 **Contenido de `requirements.txt`:**
-```
+```text
 requests
 pandas
 pyarrow
@@ -85,29 +97,48 @@ psycopg2-binary
 
 ## Configuración antes de ejecutar
 
-**Paso 1 — Crear la base de datos en PostgreSQL:**
-```sql
-CREATE DATABASE airline_dw;
+### 1. Levantar PostgreSQL en Docker
+```bash
+docker run --name airline-dw ^
+  -e POSTGRES_PASSWORD=postgres ^
+  -e POSTGRES_DB=airline_dw ^
+  -p 5433:5432 ^
+  -d postgres:17
 ```
 
-**Paso 2 — Configurar credenciales en `etl/load.py`:**
-
-Editar las primeras líneas de `load.py`:
+### 2. Configurar credenciales en `etl/load.py`
 ```python
 DB_CONFIG = {
-    "host":     "localhost",
-    "port":     5432,
-    "dbname":   "airline_dw",
-    "user":     "postgres",
-    "password": "tu_contraseña",  # ← cambiar aquí
+    "host": "127.0.0.1",
+    "port": 5433,
+    "dbname": "airline_dw",
+    "user": "postgres",
+    "password": "postgres"
 }
+```
+
+### 3. Ejecutar el DDL una vez antes de la carga
+El archivo `sql/ddl_schema.sql` se ejecuta **una vez** para crear:
+
+- esquema `dw`
+- tablas dimensionales
+- tabla de hechos
+- particiones mensuales
+- claves foráneas
+- índices
+
+Ejemplo usando Docker:
+
+```bash
+docker cp .\sql\ddl_schema.sql airline-dw:/ddl_schema.sql
+docker exec airline-dw psql -U postgres -d airline_dw -f /ddl_schema.sql
 ```
 
 ---
 
-## Ejecución del pipeline completo
+## Ejecución del pipeline ETL
 
-El pipeline se ejecuta en tres pasos en orden. Desde la raíz del proyecto:
+El pipeline se ejecuta desde la raíz del proyecto:
 
 ```bash
 python etl/extract.py
@@ -116,73 +147,91 @@ python etl/load.py
 ```
 
 O en una sola línea:
+
 ```bash
 python etl/extract.py && python etl/transform.py && python etl/load.py
 ```
 
-> **Importante:** El pipeline debe ejecutarse desde la carpeta raíz `PROYECTO-BDII/`, no desde dentro de `etl/`. Los scripts referencian rutas relativas como `staging/` y `sql/ddl_schema.sql`.
+> **Importante:** los scripts deben ejecutarse desde la carpeta raíz del proyecto, no desde dentro de `etl/`.
 
-### ¿Esto es el pipeline ETL?
+### Qué hace cada script
 
-Sí. Los tres scripts constituyen el pipeline ETL completo:
+#### `extract.py`
+Descarga automáticamente los 24 archivos ZIP del dataset y extrae los CSV en `staging/extracted`.
 
-- **`extract.py`** = fase de **Extracción** — descarga los datos de la fuente
-- **`transform.py`** = fase de **Transformación** — limpia y modela los datos
-- **`load.py`** = fase de **Carga** — carga a PostgreSQL y configura el DW
+#### `transform.py`
+Limpia datos, resuelve problemas de calidad, construye dimensiones y genera archivos Parquet en `staging/transformed`.
 
-`load.py` además ejecuta automáticamente:
-1. `sql/ddl_schema.sql` — crea el esquema, tablas y 24 particiones
-2. Carga las 3 dimensiones con `COPY FROM STDIN`
-3. Carga `fact_vuelo` (14.8M filas) con `COPY` por lotes de 50,000 filas
-4. Crea los 3 índices (bulk build post-carga)
-5. Crea las 4 FK (post-índices)
-6. Verifica conteo por partición
+#### `load.py`
+Carga dimensiones y tabla de hechos a PostgreSQL usando `COPY FROM STDIN`.
 
-### Tiempos estimados en máquina local estándar (8 GB RAM, SSD)
+> En la versión actual del proyecto, `load.py` **no ejecuta automáticamente** `ddl_schema.sql`.  
+> El esquema se crea previamente y luego `load.py` realiza la carga masiva.
 
-| Paso | Tiempo estimado |
-|---|---|
-| `extract.py` — descarga 24 ZIPs (~700 MB) | 30–60 min (depende de conexión) |
-| `transform.py` — limpieza + Parquets | 15–25 min |
-| `load.py` — DDL + COPY + índices + FK | 25–45 min |
-| **Total pipeline** | **~70–130 min** |
+> Si la base ya fue cargada, **no debe ejecutarse nuevamente `load.py` sobre la misma base** sin reinicializar el esquema, porque intentará recargar datos ya existentes.
 
-> El tiempo exacto de carga queda registrado en `staging/load.log` al finalizar `load.py`.
+---
+
+## Resultados de carga obtenidos
+
+Después de la carga, se obtuvo el siguiente volumen:
+
+| Tabla | Filas | Descripción |
+|---|---:|---|
+| `dw.dim_tiempo` | 731 | Dimensión de tiempo con granularidad diaria |
+| `dw.dim_aerolinea` | 10 | Aerolíneas de marketing |
+| `dw.dim_aeropuerto` | 362 | Dimensión de aeropuertos |
+| `dw.fact_vuelo` | 14,825,707 | Tabla de hechos particionada por `flight_date` |
 
 ---
 
 ## Modelo dimensional
 
-Esquema estrella — 1 tabla de hechos, 3 dimensiones:
+Se utilizó un **esquema estrella** con:
+
+- **1 tabla de hechos:** `dw.fact_vuelo`
+- **3 dimensiones:** `dw.dim_tiempo`, `dw.dim_aerolinea`, `dw.dim_aeropuerto`
 
 ![Diagrama dimensional](docs/model_diagram.png)
-
-| Tabla | Filas | Descripción |
-|---|---|---|
-| `fact_vuelo` | 14,825,707 | Particionada mensualmente por `flight_date` |
-| `dim_tiempo` | 730 | Granularidad de día: fecha, dia, mes, trimestre, anio, dia_semana |
-| `dim_aerolinea` | 10 | Aerolínea de marketing |
-| `dim_aeropuerto` | 388 | Role-playing dimension: usada como origen y destino |
 
 ---
 
 ## Particionamiento e índices
 
-**Particionamiento:** `PARTITION BY RANGE (flight_date)` — granularidad mensual, 24 particiones.
+### Particionamiento
+La tabla `dw.fact_vuelo` está particionada por rango sobre `flight_date` con granularidad **mensual**.
 
-**Partition pruning demostrado:**
-- Sin filtro: 24 particiones, 1,566 ms
-- Con `WHERE flight_date BETWEEN '2024-01-01' AND '2024-03-31'`: 3 particiones, 220 ms → **86% más rápido**
+**Total de particiones:** 24  
+Desde `dw.fact_vuelo_2023_01` hasta `dw.fact_vuelo_2024_12`
 
-**Índices creados automáticamente por `load.py`:**
+### Índices existentes
+- `idx_fact_aerolinea`
+- `idx_fact_fecha_aerolinea`
+- `idx_fact_origen`
 
-| Índice | Tipo | Consulta que lo motiva |
-|---|---|---|
-| `idx_fact_aerolinea` | Simple | Retraso promedio por aerolínea |
-| `idx_fact_fecha_aerolinea` | **Compuesto** | Tendencia mensual por aerolínea |
-| `idx_fact_origen` | Simple | Aeropuertos con más cancelaciones |
+### Llaves foráneas existentes
+- `fk_fact_tiempo`
+- `fk_fact_aerolinea`
+- `fk_fact_origen`
+- `fk_fact_destino`
 
-Ver evidencia completa en `docs/technical-decisions.md`.
+---
+
+## Evidencia técnica
+
+Se validó el comportamiento del DW con `EXPLAIN ANALYZE`, demostrando:
+
+- **partition pruning** en consultas con filtro por fecha
+- uso del **índice compuesto** `idx_fact_fecha_aerolinea` en consultas selectivas
+- consultas paralelas sobre particiones trimestrales
+- mejora de rendimiento en consultas analíticas
+
+Ver evidencia completa en:
+
+```text
+docs/technical-decisions.md
+sql/queries_analyze.sql
+```
 
 ---
 
@@ -190,50 +239,63 @@ Ver evidencia completa en `docs/technical-decisions.md`.
 
 **Archivo:** `airline_dashboard.twb`  
 **Herramienta:** Tableau Desktop  
-**Conexión:** Directamente a PostgreSQL — esquema `dw`, base de datos `airline_dw`
+**Conexión:** PostgreSQL, esquema `dw`, base `airline_dw`
 
-> Para abrir el dashboard PostgreSQL debe estar activo con los datos cargados.
+### Visualizaciones propuestas
 
-**Visualizaciones:**
-1. Tendencia mensual de retrasos (línea temporal 2023–2024)
-2. Retraso promedio por aerolínea (barras comparativas ordenadas)
-3. KPIs: total vuelos · retraso promedio · % cancelaciones
-4. Distribución de causas de retraso por trimestre (barras apiladas)
+1. **Tendencia temporal:** retraso promedio mensual 2023–2024  
+2. **Comparativa de categorías:** retraso promedio por aerolínea  
+3. **KPI agregado:** total de vuelos, retraso promedio general y porcentaje de cancelaciones  
+4. **Distribución:** distribución de retrasos de llegada (`arr_delay`)  
 
-**Filtro interactivo:** clic en cualquier punto de la tendencia mensual filtra todas las visualizaciones.
+### Filtros interactivos
+- rango de fechas
+- aerolínea
+- aeropuerto de origen
 
-Ver documentación detallada en `docs/dashboard-doc.md`.
+> Para abrir el dashboard, el contenedor `airline-dw` debe estar activo y la base cargada.
 
 ---
 
 ## Verificación post-carga
 
-Ejecutar en pgAdmin para confirmar que todo está correcto:
+Consultas de validación:
 
 ```sql
--- Conteo por partición
-SELECT tableoid::regclass AS particion, COUNT(*) AS filas
-FROM dw.fact_vuelo
-GROUP BY tableoid ORDER BY particion;
+SELECT COUNT(*) FROM dw.dim_tiempo;
+SELECT COUNT(*) FROM dw.dim_aerolinea;
+SELECT COUNT(*) FROM dw.dim_aeropuerto;
+SELECT COUNT(*) FROM dw.fact_vuelo;
 
--- Totales por tabla
-SELECT 'dim_tiempo'        AS tabla, COUNT(*) FROM dw.dim_tiempo    UNION ALL
-SELECT 'dim_aerolinea',             COUNT(*) FROM dw.dim_aerolinea  UNION ALL
-SELECT 'dim_aeropuerto',            COUNT(*) FROM dw.dim_aeropuerto UNION ALL
-SELECT 'fact_vuelo (total)',         COUNT(*) FROM dw.fact_vuelo;
+SELECT conname
+FROM pg_constraint
+WHERE conrelid = 'dw.fact_vuelo'::regclass
+ORDER BY conname;
 
--- Verificar índices y FK activos
-SELECT indexname FROM pg_indexes WHERE schemaname = 'dw';
-SELECT conname FROM pg_constraint WHERE conrelid = 'dw.fact_vuelo'::regclass;
+SELECT indexname
+FROM pg_indexes
+WHERE schemaname = 'dw'
+  AND tablename = 'fact_vuelo'
+ORDER BY indexname;
+
+SELECT
+    inhparent::regclass AS tabla_padre,
+    inhrelid::regclass AS particion
+FROM pg_inherits
+WHERE inhparent = 'dw.fact_vuelo'::regclass
+ORDER BY particion;
 ```
 
 ---
 
-## Decisiones técnicas
+## Notas de ejecución
 
-Ver `docs/technical-decisions.md` para justificación completa de:
-- Esquema estrella vs snowflake
-- Estrategia de particionamiento mensual
-- Justificación de cada índice con EXPLAIN ANALYZE real
-- Código de exploración del dataset y problemas de calidad resueltos
-- Distinción OLTP (sistema fuente BTS) vs OLAP (DW construido)
+- En Windows, `extract.py` puede mostrar advertencias de codificación en consola por el símbolo `✓`, pero la descarga y extracción se completan correctamente.
+- Para evitar conflictos con otros PostgreSQL locales, este proyecto se ejecutó usando el puerto **5433**.
+- Si el contenedor Docker se elimina, la base debe reconstruirse ejecutando nuevamente `ddl_schema.sql` y `load.py`.
+
+---
+
+## Autores
+
+Proyecto desarrollado para el curso **Base de Datos II (031)**.

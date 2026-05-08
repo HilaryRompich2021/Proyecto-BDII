@@ -1,119 +1,172 @@
-# technical-decisions.md
-> Proyecto Final — Base de Datos II (031)  
-> Universidad Mariano Gálvez de Guatemala  
-> Dataset: Airline On-Time Performance (BTS / U.S. DOT)  
-> Años: 2023 + 2024 | **14,825,707 registros cargados y verificados**  
-> Estado: PROYECTO COMPLETO — pipeline ETL funcional, DW cargado, dashboard entregado
+# Decisiones Técnicas del Proyecto
+
+## 1. Contexto general del proyecto
+
+Este proyecto implementa un pipeline ETL y un Data Warehouse analítico sobre el dataset **Airline On-Time Performance** del **Bureau of Transportation Statistics (BTS / U.S. DOT)**, utilizando datos de los años **2023 y 2024**.
+
+El objetivo principal es demostrar dominio en:
+
+- modelado dimensional
+- carga masiva de datos
+- particionamiento por rango
+- diseño de índices
+- análisis de rendimiento con `EXPLAIN ANALYZE`
+
+El volumen final cargado en la tabla de hechos fue de:
+
+- **14,825,707 registros** en `dw.fact_vuelo`
 
 ---
 
-## 1. Dataset elegido
+## 2. Decisión de modelado dimensional
 
-**Fuente:** Bureau of Transportation Statistics (BTS) — U.S. Department of Transportation  
-**Nombre oficial:** Marketing Carrier On-Time Performance (Beginning January 2018)  
-**URL base de descarga automatizada:**
-```
-https://transtats.bts.gov/PREZIP/On_Time_Marketing_Carrier_On_Time_Performance_Beginning_January_2018_{year}_{month}.zip
-```
+### Esquema elegido
+**Esquema estrella**
 
-**Justificación:**
-- Columna `FlightDate` (fecha de evento) bien definida → cumple requisito de dimensión temporal y particionamiento por rango
-- 14,825,707 registros verificados en `fact_vuelo` → nivel "Recomendado" del proyecto (10M–20M)
-- Descarga 100% automatizada por URL directa, un ZIP por mes, sin intervención manual
-- Problemas de calidad de datos reales y documentables (ver sección 6)
-- Dimensiones naturales: tiempo, aerolínea, aeropuerto origen, aeropuerto destino
+### Alternativa descartada
+**Esquema snowflake**
 
-**Años: 2023 y 2024** — 24 meses completos, 24 particiones mensuales uniformes  
-2025 descartado: diciembre 2025 no publicado por BTS al momento del proyecto  
-2022 descartado: agregar un tercer año no justifica el costo operacional vs beneficio evaluativo
+### Justificación
 
----
+Se eligió un **esquema estrella** porque el objetivo del proyecto es soportar consultas analíticas rápidas sobre un volumen alto de datos. En este enfoque, la tabla de hechos se conecta directamente con dimensiones relativamente pequeñas, lo que reduce la complejidad de los `JOIN` y mejora la legibilidad de las consultas.
 
-## 2. Modelo dimensional: Esquema Estrella
+La estructura implementada es:
 
-### Decisión y justificación
+- **Tabla de hechos:** `dw.fact_vuelo`
+- **Dimensiones:**
+  - `dw.dim_tiempo`
+  - `dw.dim_aerolinea`
+  - `dw.dim_aeropuerto`
 
-**Esquema elegido:** Estrella  
-**Alternativa descartada:** Snowflake
+Se descartó el esquema snowflake porque hubiera implicado normalizar más las dimensiones, por ejemplo separando ciudad y estado en tablas adicionales. Eso habría incrementado el número de `JOIN` en consultas analíticas sin aportar beneficios relevantes, ya que las dimensiones del proyecto son pequeñas:
 
-El esquema snowflake normaliza las dimensiones en subtablas (ej. `dim_aeropuerto → dim_ciudad → dim_estado`), lo que requiere JOINs encadenados en cada consulta analítica. Sobre 14.8 millones de filas ese costo es medible y contraproducente para un sistema OLAP cuyo objetivo es velocidad de lectura.
+- `dim_tiempo`: 731 filas
+- `dim_aerolinea`: 10 filas
+- `dim_aeropuerto`: 362 filas
 
-Las dimensiones de este dataset son pequeñas (~20 aerolíneas, ~500 aeropuertos), por lo que la redundancia en el esquema estrella es mínima y no justifica la complejidad del snowflake. Kimball & Ross (The Data Warehouse Toolkit, 3rd ed.) recomiendan el esquema estrella como diseño por defecto para Data Warehouses OLAP por esta razón.
-
-### Tablas del modelo
-
-| Tabla | Tipo | Filas cargadas | Descripción |
-|---|---|---|---|
-| `fact_vuelo` | Hechos | 14,825,707 | Una fila por vuelo. Particionada por rango mensual |
-| `dim_tiempo` | Dimensión | 730 | Granularidad de día |
-| `dim_aerolinea` | Dimensión | 10 | Aerolínea de marketing |
-| `dim_aeropuerto` | Dimensión | 388 | Role-playing: origen y destino |
-
-### Surrogate keys
-
-Todas las dimensiones usan `INTEGER GENERATED ALWAYS AS IDENTITY` — convención estándar de Kimball que desacopla las claves del DW de los identificadores del sistema fuente. Generadas en Python durante `transform.py` antes de la carga.
+En este contexto, la redundancia adicional del esquema estrella es mínima y está justificada por la simplicidad y eficiencia en lectura.
 
 ---
 
-## 3. Estrategia de particionamiento
+## 3. Relación entre OLTP y OLAP
 
-**Tipo:** `PARTITION BY RANGE` sobre `flight_date`  
-**Granularidad:** Mensual  
-**Particiones:** 24 (2023-01 a 2024-12)
+En este proyecto no se construyó un sistema transaccional real, pero sí se puede identificar claramente la diferencia entre el sistema fuente y el Data Warehouse final:
 
-**Justificación:**
-- ~600K filas por partición → tamaño óptimo para partition pruning visible y medible
-- El dashboard filtra por rangos de fecha → pruning elimina particiones irrelevantes automáticamente
-- Granularidad trimestral (8 particiones) sería insuficiente para pruning significativo
-- Granularidad diaria (~730 particiones) generaría overhead de planificación contraproducente
+### Componente OLTP
+El dataset fuente representa eventos operativos individuales del mundo real: cada fila corresponde a un vuelo con atributos como fecha, aerolínea, aeropuerto, retrasos, cancelaciones y causas de demora. Esa estructura corresponde conceptualmente a un entorno **OLTP**, porque modela registros detallados de operación.
+
+### Componente OLAP
+El Data Warehouse construido en PostgreSQL corresponde al componente **OLAP**, porque reorganiza esos datos en un esquema estrella, particionado y optimizado para:
+
+- agregaciones
+- tendencias temporales
+- comparación entre categorías
+- análisis histórico
+- dashboards analíticos
+
+En resumen:
+
+- **Fuente de datos** → paradigma OLTP
+- **Data Warehouse en PostgreSQL** → paradigma OLAP
 
 ---
 
-## 4. Evidencia de Partition Pruning
+## 4. Estrategia de particionamiento
 
-### Consulta ejecutada
+### Tipo
+`PARTITION BY RANGE` sobre la columna `flight_date`
+
+### Granularidad
+**Mensual**
+
+### Total de particiones
+**24 particiones**, desde:
+
+- `dw.fact_vuelo_2023_01`
+- ...
+- `dw.fact_vuelo_2024_12`
+
+### Justificación
+
+Se eligió particionamiento mensual porque:
+
+1. El dataset cubre 24 meses completos
+2. Las consultas del dashboard y del análisis técnico usan filtros por fecha
+3. La granularidad mensual permite evidenciar claramente el `partition pruning`
+4. Cada partición queda con un volumen manejable, alrededor de 550 mil a 680 mil filas por mes
+
+Se descartó una partición trimestral porque habría reducido la visibilidad del pruning, y también se descartó una partición diaria porque habría generado demasiadas particiones y mayor costo de planificación.
+
+---
+
+## 5. Evidencia de partition pruning
+
+### Consulta utilizada
 
 ```sql
 EXPLAIN ANALYZE
-SELECT aerolinea_sk, AVG(arr_delay)
-FROM dw.fact_vuelo
-WHERE flight_date BETWEEN '2024-01-01' AND '2024-03-31'
-GROUP BY aerolinea_sk;
+SELECT a.nombre_aerolinea, AVG(f.arr_delay) AS retraso_promedio
+FROM dw.fact_vuelo f
+JOIN dw.dim_aerolinea a
+    ON f.aerolinea_sk = a.aerolinea_sk
+WHERE f.flight_date BETWEEN DATE '2024-01-01' AND DATE '2024-03-31'
+GROUP BY a.nombre_aerolinea
+ORDER BY retraso_promedio DESC;
 ```
 
-### Resultado
+### Fragmento relevante del plan
 
-PostgreSQL escaneó únicamente 3 particiones (`fact_vuelo_2024_01`, `_02`, `_03`).
-Las 21 restantes fueron descartadas automáticamente por el planificador.
-
-### Comparación cuantitativa
-
-| Escenario | Particiones escaneadas | Filas examinadas | Tiempo |
-|---|---|---|---|
-| Sin filtro de fecha | 24 de 24 | 14,825,707 | 1,566 ms |
-| Con filtro Q1 2024 | 3 de 24 | ~1,763,902 | 220 ms |
-| **Mejora** | **87.5% menos** | **88% menos** | **86% más rápido** |
-
-### Fragmento del EXPLAIN ANALYZE
-
-```
-Parallel Append (actual time=0.177..117.262 rows=587967 loops=3)
-  -> Parallel Seq Scan on fact_vuelo_2024_01
-       Filter: ((flight_date >= '2024-01-01') AND (flight_date <= '2024-03-31'))
-  -> Parallel Seq Scan on fact_vuelo_2024_02
-       Filter: ((flight_date >= '2024-01-01') AND (flight_date <= '2024-03-31'))
+```text
+Parallel Append
   -> Parallel Seq Scan on fact_vuelo_2024_03
-       Filter: ((flight_date >= '2024-01-01') AND (flight_date <= '2024-03-31'))
-Planning Time: 0.270 ms | Execution Time: 220.349 ms
+  -> Parallel Seq Scan on fact_vuelo_2024_01
+  -> Parallel Seq Scan on fact_vuelo_2024_02
 ```
+
+### Interpretación
+
+El plan muestra que PostgreSQL solo accedió a las particiones:
+
+- `fact_vuelo_2024_01`
+- `fact_vuelo_2024_02`
+- `fact_vuelo_2024_03`
+
+Esto demuestra que el particionamiento mensual sí está funcionando correctamente, porque el motor **no revisó las 24 particiones**, sino únicamente las 3 relevantes para el rango solicitado.
+
+### Resultado observado
+
+- **Execution Time:** ~288.799 ms
+- Particiones leídas: **3 de 24**
+
+### Conclusión
+
+El mayor beneficio del particionamiento se observó en consultas con filtros por rangos de fecha amplios, donde PostgreSQL redujo automáticamente el universo de búsqueda a las particiones necesarias.
 
 ---
 
-## 5. Índices estratégicos — evidencia cuantitativa
+## 6. Estrategia de índices
 
-### Índice 1: `idx_fact_aerolinea` — simple sobre `aerolinea_sk`
+Se definieron 3 índices sobre la tabla de hechos:
 
-**Consulta que lo motiva:**
+1. `idx_fact_aerolinea`
+2. `idx_fact_fecha_aerolinea`
+3. `idx_fact_origen`
+
+La idea fue alinear cada índice con patrones de consulta esperados en el dashboard y en el análisis técnico.
+
+---
+
+## 6.1 Índice 1 — `idx_fact_aerolinea`
+
+### Tipo
+Índice simple sobre:
+
+```sql
+(aerolinea_sk)
+```
+
+### Consulta que lo motiva
+
 ```sql
 SELECT aerolinea_sk, AVG(arr_delay)
 FROM dw.fact_vuelo
@@ -121,145 +174,171 @@ GROUP BY aerolinea_sk
 ORDER BY AVG(arr_delay) DESC;
 ```
 
+### Métricas registradas
+
 | Métrica | Sin índice | Con índice |
-|---|---|---|
-| Costo estimado | 336,529–336,581 | 336,529–336,581 |
-| Execution Time | 1,566 ms | 1,592 ms |
+|---|---:|---:|
+| Costo estimado | 336529–336581 | 336529–336581 |
+| Execution Time | 1566 ms | 1592 ms |
 
-**Análisis:** Para GROUP BY sobre toda la tabla PostgreSQL elige correctamente Parallel Seq Scan sobre Index Scan — la selectividad es baja (se procesan todas las filas). El índice beneficia queries con `WHERE aerolinea_sk = N` que retornan una fracción pequeña de filas.
+### Interpretación
 
----
+En esta consulta PostgreSQL eligió correctamente `Parallel Seq Scan`, porque la operación requiere procesar prácticamente toda la tabla para agrupar por aerolínea.
 
-### Índice 2: `idx_fact_fecha_aerolinea` — compuesto `(flight_date, aerolinea_sk)`
+### Conclusión
 
-**Consulta que lo motiva:**
+Este índice no aporta una mejora significativa en consultas de agregación global sobre toda la tabla, pero sí puede ser útil en consultas más selectivas del tipo:
+
 ```sql
-SELECT flight_date, aerolinea_sk, AVG(arr_delay)
-FROM dw.fact_vuelo
-WHERE flight_date BETWEEN '2024-01-01' AND '2024-03-31'
-GROUP BY flight_date, aerolinea_sk
-ORDER BY flight_date;
+WHERE aerolinea_sk = N
 ```
 
-| Métrica | Sin índice | Con índice |
-|---|---|---|
-| Costo estimado | 100,574–111,208 | 100,574–111,208 |
-| Execution Time | 241 ms | 277 ms |
-| Particiones escaneadas | 3 de 24 | 3 de 24 |
+---
 
-**Análisis:** El particionamiento ya elimina 21 particiones. El índice compuesto maximiza su valor en queries que filtran simultáneamente por rango de fecha Y aerolínea específica (`WHERE flight_date BETWEEN ... AND aerolinea_sk = N`).
+## 6.2 Índice 2 — `idx_fact_fecha_aerolinea`
+
+### Tipo
+Índice compuesto sobre:
+
+```sql
+(flight_date, aerolinea_sk)
+```
+
+### Consulta que lo motiva
+
+```sql
+EXPLAIN ANALYZE
+SELECT COUNT(*) AS total_vuelos, AVG(arr_delay) AS retraso_promedio
+FROM dw.fact_vuelo
+WHERE flight_date = DATE '2024-01-15'
+  AND aerolinea_sk = 1;
+```
+
+### Fragmento relevante del plan
+
+```text
+Bitmap Heap Scan on fact_vuelo_2024_01 fact_vuelo
+  Recheck Cond: ((flight_date = '2024-01-15'::date) AND (aerolinea_sk = 1))
+  -> Bitmap Index Scan on fact_vuelo_2024_01_flight_date_aerolinea_sk_idx
+       Index Cond: ((flight_date = '2024-01-15'::date) AND (aerolinea_sk = 1))
+```
+
+### Resultado observado
+
+- Filas encontradas: **653**
+- Partición usada: **fact_vuelo_2024_01**
+- **Execution Time:** **0.755 ms**
+
+### Interpretación
+
+Aquí sí se observa claramente el valor del índice compuesto. PostgreSQL:
+
+1. aplicó primero el particionamiento, usando solo la partición de enero 2024
+2. dentro de esa partición utilizó el índice compuesto para localizar las filas exactas
+3. evitó recorrer secuencialmente toda la partición
+
+### Conclusión
+
+Este índice compuesto sí aporta valor en consultas **altamente selectivas** que filtran simultáneamente por:
+
+- fecha específica
+- aerolínea específica
+
+Por eso es el índice más fuerte para defender técnicamente en este proyecto.
 
 ---
 
-### Índice 3: `idx_fact_origen` — simple sobre `origen_sk`
+## 6.3 Índice 3 — `idx_fact_origen`
 
-**Consulta que lo motiva:**
+### Tipo
+Índice simple sobre:
+
+```sql
+(origen_sk)
+```
+
+### Consulta que lo motiva
+
 ```sql
 SELECT origen_sk, COUNT(*) AS cancelaciones
 FROM dw.fact_vuelo
 WHERE cancelled = 1
 GROUP BY origen_sk
-ORDER BY cancelaciones DESC LIMIT 20;
+ORDER BY cancelaciones DESC
+LIMIT 20;
 ```
+
+### Métricas registradas
 
 | Métrica | Sin índice | Con índice |
-|---|---|---|
-| Costo estimado | 291,007–291,064 | 291,007–291,064 |
-| Execution Time | 1,135 ms | 1,108 ms |
+|---|---:|---:|
+| Costo estimado | 291007–291064 | 291007–291064 |
+| Execution Time | 1135 ms | 1108 ms |
 
-**Análisis:** El filtro `WHERE cancelled = 1` sin índice propio fuerza full scan. Mejora marginal de 27 ms. Optimización identificada: un índice parcial `CREATE INDEX ON dw.fact_vuelo (origen_sk) WHERE cancelled = 1` sería más eficiente.
+### Interpretación
 
----
+La mejora fue pequeña. El motivo es que la consulta filtra por `cancelled = 1`, pero no existe un índice específico sobre ese predicado. Por ello, el índice en `origen_sk` por sí solo no logra una optimización fuerte.
 
-## 6. Calidad de datos — exploración y correcciones
+### Conclusión
 
-### Código de exploración ejecutado
+El índice cumple como parte del diseño solicitado, pero una mejora futura más efectiva sería usar un índice parcial, por ejemplo:
 
-El siguiente código fue ejecutado para identificar los problemas del dataset antes de implementar las correcciones en `transform.py`:
-
-```python
-import pandas as pd
-
-# Leer muestra del primer CSV para exploración
-df = pd.read_csv(
-    'staging/extracted/On_Time_Marketing_Carrier_On_Time_Performance_(Beginning_January_2018)_2023_1.csv',
-    nrows=500,
-    low_memory=False
-)
-
-# 1. Revisar nombres de columnas (detectó el espacio en Operating_Airline)
-print(df.columns.tolist())
-# Output incluía: 'Operating_Airline ' ← espacio al final detectado
-
-# 2. Contar nulos por columna (ordenados de mayor a menor)
-print(df.isnull().sum().sort_values(ascending=False).head(15))
-# Output mostró columnas Div1-Div5 y Originally_Scheduled con 500/500 nulos
-
-# 3. Revisar tipos de datos
-print(df.dtypes)
-# Output mostró FlightDate como object (string) en lugar de datetime
-# Output mostró Duplicate como str en lugar de numérico
-
-# 4. Verificar columna fantasma
-print([c for c in df.columns if 'Unnamed' in c])
-# Output: ['Unnamed: 119'] ← columna artefacto del CSV
+```sql
+CREATE INDEX idx_fact_origen_cancelled
+ON dw.fact_vuelo (origen_sk)
+WHERE cancelled = 1;
 ```
 
-### Problemas identificados y soluciones aplicadas en `transform.py`
+---
 
-| # | Problema detectado | Columna(s) | Solución implementada |
-|---|---|---|---|
-| 1 | Nombre de columna con espacio al final | `Operating_Airline ` | `df.columns.str.strip()` al cargar cada chunk |
-| 2 | Columna fantasma sin datos | `Unnamed: 119` | Eliminada al seleccionar solo columnas del modelo |
-| 3 | Tipo incorrecto — fecha como string | `FlightDate` | `pd.to_datetime()` → tipo `date` nativo |
-| 4 | Nulos en métricas de vuelos cancelados | `ArrDelay`, `DepDelay`, `TaxiOut`, `TaxiIn`, `AirTime` | `fillna(0.0)` — vuelo cancelado = 0 min operación |
-| 5 | Nulos en código de cancelación | `CancellationCode` nulo cuando `Cancelled=0` | `fillna("N/A")` |
-| 6 | Columnas de vuelos desviados 100% nulas | `Div1Airport` a `Div5TailNum` (50+ columnas) | Descartadas — no aportan al modelo dimensional |
+## 7. Mejora cuantitativa observada
+
+La optimización del proyecto no depende de un único mecanismo, sino de la combinación de:
+
+- esquema estrella
+- particionamiento mensual
+- índices selectivos
+- ejecución paralela de PostgreSQL
+
+### Observaciones clave
+
+1. **Particionamiento**
+   - Las consultas por rango de fechas evitaron leer particiones irrelevantes.
+   - En una consulta trimestral, PostgreSQL escaneó solo **3 de 24 particiones**.
+
+2. **Índice compuesto**
+   - En la consulta selectiva por fecha y aerolínea, PostgreSQL usó `Bitmap Index Scan`.
+   - Tiempo de ejecución: **0.755 ms**
+
+3. **Consultas globales**
+   - En consultas que agrupan casi toda la tabla, PostgreSQL prefirió `Parallel Seq Scan`, lo cual fue correcto y esperado.
+
+### Conclusión cuantitativa
+
+El particionamiento aportó el mayor beneficio en consultas analíticas amplias con filtro por fecha, mientras que el índice compuesto aportó el mayor beneficio en consultas selectivas. Esto confirma que la estrategia de optimización elegida es coherente con los patrones de consulta del proyecto.
 
 ---
 
-## 7. Distinción OLTP vs OLAP
+## 8. Resumen final de decisiones
 
-**Sistema fuente (OLTP):** Los sistemas operacionales de aerolíneas y la FAA registran cada vuelo en tiempo real — inserciones individuales por evento, optimizados para escritura concurrente, esquemas en 3FN, transacciones ACID individuales.
+### Modelo
+- **Esquema estrella**
+- 1 tabla de hechos + 3 dimensiones
 
-**Data Warehouse construido (OLAP):** Carga por lotes desde staging con `COPY` de PostgreSQL, optimizado para lectura analítica, esquema dimensional desnormalizado (estrella), con particionamiento e índices orientados a consultas agregadas.
+### Particionamiento
+- `RANGE` sobre `flight_date`
+- granularidad mensual
+- 24 particiones
 
-> El dataset BTS proviene de un sistema que operó históricamente bajo modelo OLTP. El DW construido es el componente OLAP que permite análisis retrospectivo de ese historial.
+### Índices
+- 3 índices creados
+- 1 índice compuesto
+- evidencia real de uso del índice compuesto en consulta selectiva
 
----
+### Carga
+- dimensiones cargadas correctamente
+- tabla de hechos con **14,825,707 filas**
 
-## 8. Preguntas de negocio del dashboard
+### Resultado general
 
-1. ¿Qué aerolínea tiene el mayor retraso promedio de llegada en 2023–2024?
-2. ¿Cuál es la tendencia mensual de retrasos a lo largo de los dos años?
-3. ¿Qué aeropuertos de origen concentran más cancelaciones?
-4. ¿Qué causa de retraso es más frecuente por trimestre?
-
----
-
-## 9. Decisiones tecnológicas
-
-| Componente | Decisión | Justificación |
-|---|---|---|
-| ETL | Python 3.9+ scripts `.py` | Requisito del proyecto |
-| Staging | Parquet por mes en disco local | Compresión nativa, más eficiente que CSV |
-| Base de datos | PostgreSQL local (instalación nativa) | Requisito del proyecto |
-| Carga masiva | `COPY FROM STDIN` vía psycopg2 | Requisito explícito para datasets >1M filas |
-| DDL | Ejecutado automáticamente por `load.py` | Requisito: "ejecutarse desde Python en el proceso de carga" |
-| Índices | Creados post-carga (bulk build) | 3–5x más rápido que mantenerlos durante COPY |
-| FK | Creadas post-índices por `load.py` | Soportadas desde PostgreSQL 12; validación usa índices como apoyo |
-| Dashboard | Tableau Desktop | Conector nativo a PostgreSQL sin configuración ODBC adicional |
-
----
-
-## 10. Resumen de mejoras cuantitativas
-
-| Optimización | Antes | Después | Mejora |
-|---|---|---|---|
-| Partition pruning Q1 2024 | 1,566 ms / 24 particiones | 220 ms / 3 particiones | **86% más rápido** |
-| Filas examinadas | 14,825,707 | 1,763,902 | **88% menos filas** |
-| Carga COPY vs INSERT individual | ~14.8M ops individuales | COPY por lotes de 50K | **~10–50x más rápido** |
-
----
-*Proyecto completado — semanas 3–8*  
-*Pipeline verificado: 14,825,707 registros cargados, 24 particiones, 3 índices, 4 FK, dashboard funcional*
+El proyecto cumple con los objetivos técnicos esperados para un Data Warehouse analítico: volumen alto, modelo dimensional claro, particionamiento funcional, índices justificados y evidencia de rendimiento con `EXPLAIN ANALYZE`.
