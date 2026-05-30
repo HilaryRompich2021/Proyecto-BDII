@@ -105,26 +105,49 @@ def validar_archivos():
 
 # ─── EJECUCIÓN DEL DDL ────────────────────────────────────────────────────────
 
-def ejecutar_ddl(conn):
+def ejecutar_ddl_inicial(conn):
     """
-    Ejecuta sql/ddl_schema.sql desde Python.
-
-    Esto permite cumplir con la consigna de que el proceso de carga cree
-    el esquema, tablas, particiones, llaves e índices sin hacerlo manualmente.
+    Ejecuta la primera parte de sql/ddl_schema.sql desde Python.
+    Crea el esquema, tablas y particiones limpios (sin FKs ni índices) para máxima velocidad de carga.
     """
-    log.info("\n[DDL] Ejecutando sql/ddl_schema.sql...")
-    log.warning("Esto reconstruirá el esquema dw si ddl_schema.sql contiene DROP SCHEMA.")
-
+    log.info("\n[DDL Inicial] Reconstruyendo estructura (esquemas, tablas y particiones)...")
     t0 = time.time()
 
-    ddl_sql = DDL_FILE.read_text(encoding="utf-8")
+    ddl_completo = DDL_FILE.read_text(encoding="utf-8")
+    
+    # Separar por el marcador de carga
+    partes = ddl_completo.split("-- === SPLIT_BEFORE_LOAD_END ===")
+    ddl_inicial = partes[0]
 
     with conn.cursor() as cur:
-        cur.execute(ddl_sql)
+        cur.execute(ddl_inicial)
 
     conn.commit()
+    log.info(f"[DDL Inicial] Estructura creada en {time.time() - t0:.1f}s")
 
-    log.info(f"[DDL] Esquema creado correctamente en {time.time() - t0:.1f}s")
+
+def ejecutar_ddl_final(conn):
+    """
+    Ejecuta la segunda parte de sql/ddl_schema.sql desde Python.
+    Crea las llaves foráneas y los índices optimizados sobre los datos ya cargados.
+    """
+    log.info("\n[DDL Final] Creando llaves foráneas e índices optimizados...")
+    t0 = time.time()
+
+    ddl_completo = DDL_FILE.read_text(encoding="utf-8")
+    
+    partes = ddl_completo.split("-- === SPLIT_BEFORE_LOAD_END ===")
+    if len(partes) < 2:
+        log.warning("[DDL Final] No se encontró el marcador de separación. Saltando FKs e índices.")
+        return
+        
+    ddl_final = partes[1]
+
+    with conn.cursor() as cur:
+        cur.execute(ddl_final)
+
+    conn.commit()
+    log.info(f"[DDL Final] Claves foráneas e índices creados y validados correctamente en {time.time() - t0:.1f}s")
 
 
 # ─── COPY HELPER ──────────────────────────────────────────────────────────────
@@ -300,6 +323,49 @@ def verificar_carga(conn):
         log.info(f"  {'TOTAL':<40} {total:>10,} filas")
 
 
+# ─── ASEGURAR BASE DE DATOS ───────────────────────────────────────────────────
+
+def asegurar_base_datos():
+    """
+    Se conecta a la base de datos por defecto 'postgres' para verificar
+    si la base de datos objetivo ('airline_dw') existe. Si no existe, la crea.
+    Esto hace al pipeline 100% autónomo y flexible en local y Docker.
+    """
+    dbname = DB_CONFIG["dbname"]
+    
+    # Clonar la configuración de conexión pero apuntando a la base por defecto 'postgres'
+    config_puente = DB_CONFIG.copy()
+    config_puente["dbname"] = "postgres"
+    
+    log.info(f"\n[BD] Conectando a base de datos puente 'postgres' para verificar existencia de '{dbname}'...")
+    
+    try:
+        conn = psycopg2.connect(**config_puente)
+        conn.autocommit = True # CREATE DATABASE no se puede ejecutar en transacción
+    except Exception as e:
+        log.error(f"[BD] Error al conectar a base de datos por defecto 'postgres': {e}")
+        log.error("Verifica que PostgreSQL esté activo y que el puerto sea el correcto.")
+        raise
+
+    try:
+        with conn.cursor() as cur:
+            # Consultar al catálogo de PG si existe la BD
+            cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (dbname,))
+            existe = cur.fetchone()
+            
+            if not existe:
+                log.info(f"[BD] La base de datos '{dbname}' no existe. Creándola dinámicamente...")
+                cur.execute(f'CREATE DATABASE "{dbname}"')
+                log.info(f"[BD] Base de datos '{dbname}' creada correctamente.")
+            else:
+                log.info(f"[BD] La base de datos '{dbname}' ya existe. Continuando...")
+    except Exception as e:
+        log.error(f"[BD] Error al verificar/crear la base de datos '{dbname}': {e}")
+        raise
+    finally:
+        conn.close()
+
+
 # ─── PIPELINE PRINCIPAL ───────────────────────────────────────────────────────
 
 def run():
@@ -319,6 +385,13 @@ def run():
         log.error(f"Validación fallida: {e}")
         return
 
+    # Asegurar la existencia de la base de datos física de manera inteligente
+    try:
+        asegurar_base_datos()
+    except Exception as e:
+        log.error(f"No se pudo asegurar la existencia de la base de datos: {e}")
+        return
+
     try:
         conn = psycopg2.connect(**DB_CONFIG)
         conn.autocommit = False
@@ -329,12 +402,17 @@ def run():
         return
 
     try:
-        ejecutar_ddl(conn)
+        # 1. Crear esquema, tablas y particiones vacías (sin FKs ni índices)
+        ejecutar_ddl_inicial(conn)
 
+        # 2. Cargar datos de dimensiones y tabla de hechos (velocidad de carga máxima)
         load_dim_tiempo(conn)
         load_dim_aerolinea(conn)
         load_dim_aeropuerto(conn)
         load_fact_vuelo(conn)
+
+        # 3. Crear claves foráneas e índices optimizados de forma paralela/secuencial
+        ejecutar_ddl_final(conn)
 
         verificar_carga(conn)
 
