@@ -61,6 +61,8 @@ PROYECTO-BDII/
 │   ├── extract.py
 │   ├── transform.py
 │   └── load.py
+├── notebooks/
+│   └── data_profiling.ipynb
 ├── sql/
 │   ├── ddl_schema.sql
 │   └── queries_analyze.sql
@@ -197,7 +199,7 @@ Estos archivos se guardan en `staging/transformed`.
 
 Realiza la carga a PostgreSQL usando `COPY FROM STDIN` por lotes.
 
-Además, en la versión corregida del proyecto, `load.py` ejecuta automáticamente:
+El script `load.py` ejecuta automáticamente:
 
 ```text
 sql/ddl_schema.sql
@@ -207,16 +209,15 @@ Esto permite que el pipeline sea reproducible desde una base limpia, sin crear t
 
 El script `load.py` se encarga de:
 
-1. Ejecutar el DDL.
-2. Crear el esquema `dw`.
-3. Crear las tablas dimensionales.
-4. Crear la tabla de hechos `fact_vuelo`.
-5. Crear las 24 particiones mensuales.
-6. Crear las llaves foráneas.
-7. Crear los índices.
-8. Cargar las dimensiones.
-9. Cargar la tabla de hechos.
-10. Verificar conteos finales.
+1. Asegurar la existencia de la base de datos `airline_dw` en el motor.
+2. Ejecutar el DDL de creación de estructuras.
+3. Crear el esquema `dw`.
+4. Crear las tablas dimensionales vacías.
+5. Crear la tabla de hechos `fact_vuelo` y sus 24 particiones mensuales vacías.
+6. Cargar masivamente las dimensiones y hechos a alta velocidad con `COPY`.
+7. Crear las llaves foráneas.
+8. Crear los índices analíticos optimizados.
+9. Verificar conteos finales de la carga.
 
 > **Nota:** `ddl_schema.sql` reconstruye el esquema `dw`. Si el esquema ya existe, se elimina y se vuelve a crear para garantizar una carga limpia.
 
@@ -224,7 +225,7 @@ El script `load.py` se encarga de:
 
 ## Resultados de carga obtenidos
 
-Después de ejecutar el pipeline corregido, se obtuvo el siguiente volumen:
+Tras la ejecución del pipeline, se obtiene el siguiente volumen de datos en el Data Warehouse:
 
 | Tabla | Filas | Descripción |
 |---|---:|---|
@@ -294,14 +295,15 @@ Esta estrategia permite que PostgreSQL lea solo las particiones necesarias cuand
 
 Se crearon 3 índices sobre la tabla de hechos:
 
-### 1. `idx_fact_aerolinea`
+### 1. `idx_fact_aerolinea_cubriente`
 
 ```sql
-CREATE INDEX idx_fact_aerolinea
-ON dw.fact_vuelo (aerolinea_sk);
+CREATE INDEX idx_fact_aerolinea_cubriente
+ON dw.fact_vuelo (aerolinea_sk)
+INCLUDE (arr_delay);
 ```
 
-Motiva consultas por aerolínea.
+Índice cubriente (Covering Index) optimizado para OLAP. Motiva consultas de promedios globales de retraso por aerolínea sin requerir lecturas físicas a la tabla principal (Index-Only Scan).
 
 ### 2. `idx_fact_fecha_aerolinea`
 
@@ -310,16 +312,17 @@ CREATE INDEX idx_fact_fecha_aerolinea
 ON dw.fact_vuelo (flight_date, aerolinea_sk);
 ```
 
-Índice compuesto. Motiva consultas por fecha y aerolínea.
+Índice compuesto. Motiva consultas selectivas de filtros simultáneos por fecha y aerolínea en el dashboard.
 
-### 3. `idx_fact_origen`
+### 3. `idx_fact_origen_cancelados`
 
 ```sql
-CREATE INDEX idx_fact_origen
-ON dw.fact_vuelo (origen_sk);
+CREATE INDEX idx_fact_origen_cancelados
+ON dw.fact_vuelo (origen_sk)
+WHERE cancelled = 1;
 ```
 
-Motiva consultas por aeropuerto de origen.
+Índice parcial (Partial Index) altamente selectivo. Motiva consultas analíticas sobre cancelaciones de aeropuertos de origen filtrando únicamente el ~1.3% de registros históricos cancelados (reducción masiva del tiempo de ejecución).
 
 ---
 
