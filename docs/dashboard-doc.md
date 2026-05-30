@@ -1,216 +1,287 @@
-# Dashboard — Documentación Técnica
-> Airline On-Time Performance · BTS 2023–2024  
-> Herramienta: Tableau Desktop  
-> Conexión: PostgreSQL local · esquema `dw` · base de datos `airline_dw`
+# Documentación del Dashboard — Airline On-Time Performance
+
+## 1. Objetivo del dashboard
+
+El dashboard permite consultar y analizar el Data Warehouse construido en PostgreSQL a partir del dataset **Airline On-Time Performance (BTS)** para los años **2023–2024**.
+
+Su objetivo principal es mostrar que el Data Warehouse es consultable desde una herramienta BI y que puede responder preguntas analíticas sobre retrasos, cancelaciones, aerolíneas, aeropuertos y causas de retraso.
+
+> El dashboard es un entregable de soporte. El producto central del proyecto es el Data Warehouse optimizado en PostgreSQL.
 
 ---
 
-## Conexión a PostgreSQL
+## 2. Fuente de datos
 
-El dashboard se conecta **directamente a PostgreSQL** — no importa CSVs ni archivos intermedios.
+**Herramienta BI:** Tableau Desktop  
+**Conexión:** Directa a PostgreSQL  
+**Base de datos:** `airline_dw`  
+**Esquema:** `dw`  
+**Modo de conexión:** En tiempo real  
+**Servidor:**  `localhost`  
+**Puerto:** `5433`  
+**Usuario:** `postgres`  
+**Contraseña:** `postgres`
 
-Configuración de conexión en Tableau:
-- Servidor: `localhost`
-- Puerto: `5432`
-- Base de datos: `airline_dw`
-- Usuario: `postgres`
-- Esquema: `dw`
+> Para abrir correctamente el dashboard, el contenedor Docker de PostgreSQL debe estar encendido y exponiendo el puerto `5433`.
 
----
+Comando recomendado para verificar que el contenedor esté activo:
 
-## Modelo de datos en Tableau
-
-Se definieron relaciones entre tablas directamente en la fuente de datos de Tableau, replicando el esquema estrella del Data Warehouse:
-
-| Tabla izquierda | Campo | Tabla derecha | Campo |
-|---|---|---|---|
-| `fact_vuelo` | `aerolinea_sk` | `dim_aerolinea` | `aerolinea_sk` |
-| `fact_vuelo` | `tiempo_sk` | `dim_tiempo` | `tiempo_sk` |
-| `fact_vuelo` | `origen_sk` | `dim_aeropuerto` | `aeropuerto_sk` |
-| `fact_vuelo` | `destino_sk` | `dim_aeropuerto1` | `aeropuerto_sk` |
-
-> `dim_aeropuerto` se usa dos veces (role-playing dimension): una instancia para origen y otra para destino. Tableau las nombra `dim_aeropuerto` y `dim_aeropuerto1` internamente.
-
----
-
-## Visualización 1 — Tendencia Mensual de Retrasos
-
-**Pregunta de negocio que responde:** ¿Cuál es la tendencia mensual de retrasos a lo largo de 2023 y 2024?
-
-**Tipo de gráfico:** Línea temporal
-
-**Configuración en Tableau:**
-
-| Zona | Campo | Tratamiento |
-|---|---|---|
-| Columnas | `Anio` (dim_tiempo) | Dimensión discreta |
-| Columnas | `Mes` (dim_tiempo) | Dimensión discreta |
-| Filas | `Arr Delay` (fact_vuelo) | Medida → Promedio |
-| Marcas | Línea | — |
-
-**Qué representa:** Cada punto en la línea es el retraso promedio de llegada (en minutos) de todos los vuelos de ese mes. El eje X muestra los 24 meses (enero 2023 a diciembre 2024) separados por año. El eje Y muestra minutos de retraso promedio.
-
-**Hallazgo principal:** Julio es consistentemente el mes con más retrasos en ambos años (~15–17 minutos promedio), mientras que noviembre registra los menores retrasos. Esto refleja el efecto de la temporada de verano (mayor volumen de vuelos) sobre los retrasos.
-
-**Rol en el dashboard:** También funciona como **filtro interactivo** — al hacer clic en cualquier punto de la línea, todas las demás visualizaciones del dashboard se filtran para mostrar solo los datos de ese mes.
-
----
-
-## Visualización 2 — Retraso Promedio por Aerolínea
-
-**Pregunta de negocio que responde:** ¿Qué aerolínea tiene el mayor retraso promedio de llegada en 2023–2024?
-
-**Tipo de gráfico:** Barras horizontales ordenadas descendentemente
-
-**Configuración en Tableau:**
-
-| Zona | Campo | Tratamiento |
-|---|---|---|
-| Filas | `Nombre Aerolinea` (dim_aerolinea) | Dimensión |
-| Columnas | `Arr Delay` (fact_vuelo) | Medida → Promedio |
-| Color | `Arr Delay` (fact_vuelo) | Medida → Promedio (gradiente) |
-| Etiqueta | `Arr Delay` (fact_vuelo) | Medida → Promedio |
-| Marcas | Barra | Ordenadas descendentemente |
-
-**Qué representa:** Cada barra es una aerolínea. La longitud representa el retraso promedio de llegada en minutos durante todo el período 2023–2024. El color refuerza la magnitud — azul oscuro indica mayor retraso.
-
-**Hallazgo principal:** F9 (Frontier Airlines) lidera con 16.21 minutos de retraso promedio, seguida de B6 (JetBlue) con 14.52 minutos. DL (Delta Air Lines) tiene el mejor desempeño con 2.36 minutos promedio.
-
-**Nota:** Los nombres muestran código IATA porque el campo `nombre_aerolinea` en `dim_aerolinea` almacena el código del sistema fuente BTS. La correspondencia es: F9=Frontier, B6=JetBlue, G4=Allegiant, NK=Spirit, AA=American, HA=Hawaiian, UA=United, WN=Southwest, AS=Alaska, DL=Delta.
-
----
-
-## Visualización 3 — KPIs Agregados
-
-**Pregunta de negocio que responde:** ¿Cuál es el desempeño general del sistema de aviación en 2023–2024?
-
-**Tipo:** Tres métricas de texto (tarjetas KPI)
-
-### KPI 1 — Total de Vuelos
-
-| Zona | Campo | Tratamiento |
-|---|---|---|
-| Texto (Marcas) | `Flight Sk` (fact_vuelo) | Medida → Recuento |
-
-**Valor:** 14,825,707 vuelos registrados en 2023–2024.
-
-### KPI 2 — Retraso Promedio
-
-| Zona | Campo | Tratamiento |
-|---|---|---|
-| Texto (Marcas) | `Arr Delay` (fact_vuelo) | Medida → Promedio |
-
-**Valor:** ~6.7 minutos de retraso promedio de llegada sobre todos los vuelos del período.
-
-### KPI 3 — Porcentaje de Cancelados
-
-Campo calculado creado en Tableau:
-```
-AVG([Cancelled]) * 100
+```powershell
+docker ps
 ```
 
-| Zona | Campo | Tratamiento |
-|---|---|---|
-| Texto (Marcas) | `%Cancelados` (calculado) | AGR (promedio agregado) |
+Debe observarse una salida similar a:
 
-**Valor:** 1.327% — aproximadamente 1 de cada 75 vuelos fue cancelado en el período.
+```text
+0.0.0.0:5433->5432/tcp   airline-dw
+```
 
----
+También puede validarse la conexión ejecutando:
 
-## Visualización 4 — Causas de Retraso por Trimestre
+```powershell
+docker exec airline-dw psql -U postgres -d airline_dw -c "SELECT COUNT(*) FROM dw.fact_vuelo;"
+```
 
-**Pregunta de negocio que responde:** ¿Qué causa de retraso es más frecuente y cómo varía por trimestre?
+Resultado esperado:
 
-**Tipo de gráfico:** Barras apiladas por trimestre
-
-**Configuración en Tableau:**
-
-| Zona | Campo | Tratamiento |
-|---|---|---|
-| Columnas | `Trimestre` (dim_tiempo) | Dimensión discreta |
-| Filas | `Valores de medidas` | Automático |
-| Color | `Nombres de medidas` | Filtrado a 4 causas |
-| Marcas | Barra apilada | — |
-
-**Medidas incluidas en el filtro:**
-- `Prom. Carrier Delay` — retraso atribuible a la aerolínea
-- `Prom. Late Aircraft Delay` — aeronave retrasada de vuelo anterior
-- `Prom. Nas Delay` — sistema nacional de espacio aéreo (NAS)
-- `Prom. Weather Delay` — condiciones climáticas
-
-**Qué representa:** Cada barra es un trimestre (Q1–Q4). La altura total es la suma de los retrasos promedio por causa. Los colores muestran qué porción de los retrasos se atribuye a cada causa.
-
-**Hallazgo principal:** `Carrier Delay` (naranja) es consistentemente la causa dominante en todos los trimestres, representando aproximadamente el 40–50% del retraso total. Q2 y Q3 (primavera-verano) muestran retrasos totales significativamente mayores que Q1 y Q4.
+```text
+14825707
+```
 
 ---
 
-## Filtro Interactivo
+## 3. Tablas utilizadas en Tableau
 
-**Implementación:** La visualización de Tendencia Mensual está configurada como **"Usar como filtro"** en el dashboard.
+El dashboard se construyó usando las tablas del modelo dimensional directamente desde PostgreSQL:
 
-**Funcionamiento:** Al hacer clic en cualquier punto de la línea de tendencia (un mes específico), todas las demás visualizaciones se actualizan automáticamente para mostrar solo los datos de ese mes:
-- Los KPIs muestran totales del mes seleccionado
-- Las barras de aerolínea muestran retrasos de ese mes específico
-- Las causas de retraso muestran solo el trimestre correspondiente
+- `dw.fact_vuelo`
+- `dw.dim_tiempo`
+- `dw.dim_aerolinea`
+- `dw.dim_aeropuerto`
 
-**Ejemplo documentado:** Al seleccionar julio 2023 (mes de mayor retraso):
-- Total vuelos: 638,995
-- Retraso promedio: 16.09 minutos
-- Aerolínea con más retraso ese mes: B6 (JetBlue) con 42.09 minutos
+En Tableau, `dim_aeropuerto` se utiliza dos veces:
+
+- una vez para representar el **aeropuerto de origen**;
+- otra vez para representar el **aeropuerto de destino**.
+
+Esto se debe a que `dim_aeropuerto` es una dimensión reutilizada o *role-playing dimension*.
 
 ---
 
-## Queries de referencia
+## 4. Relaciones utilizadas
 
-> Estas queries son de **referencia analítica** — se ejecutan manualmente en pgAdmin para verificación o análisis adicional. No son ejecutadas por el pipeline ETL.
+Las relaciones principales del modelo en Tableau son:
 
-**Tendencia mensual:**
+| Tabla principal | Campo | Tabla relacionada | Campo relacionado | Propósito |
+|---|---|---|---|---|
+| `fact_vuelo` | `tiempo_sk` | `dim_tiempo` | `tiempo_sk` | Analizar vuelos por fecha, mes, trimestre y año |
+| `fact_vuelo` | `aerolinea_sk` | `dim_aerolinea` | `aerolinea_sk` | Analizar vuelos por aerolínea |
+| `fact_vuelo` | `origen_sk` | `dim_aeropuerto` | `aeropuerto_sk` | Analizar aeropuerto de origen |
+| `fact_vuelo` | `destino_sk` | `dim_aeropuerto` | `aeropuerto_sk` | Analizar aeropuerto de destino |
+
+---
+
+## 5. Preguntas de negocio respondidas
+
+El dashboard responde las siguientes preguntas de negocio:
+
+1. ¿Qué aerolínea tiene el mayor retraso promedio de llegada?
+2. ¿Cuál es la tendencia mensual de retrasos durante 2023–2024?
+3. ¿Cuál es el total de vuelos analizados?
+4. ¿Cuál es el retraso promedio general?
+5. ¿Qué porcentaje de vuelos fue cancelado?
+6. ¿Cómo se distribuyen las principales causas de retraso por trimestre?
+
+---
+
+## 6. Visualizaciones del dashboard
+
+### 6.1 Tendencia mensual de retrasos
+
+**Tipo:** Gráfico de línea  
+**Campos principales:**
+
+- `anio`
+- `mes`
+- `arr_delay`
+
+**Propósito:**  
+Muestra cómo cambia el retraso promedio de llegada a lo largo del tiempo.
+
+Esta visualización permite identificar meses con mayor o menor retraso promedio y observar patrones temporales entre 2023 y 2024.
+
+---
+
+### 6.2 Retraso promedio por aerolínea
+
+**Tipo:** Barras horizontales  
+**Campos principales:**
+
+- `nombre_aerolinea`
+- `arr_delay`
+
+**Propósito:**  
+Compara el retraso promedio de llegada entre aerolíneas.
+
+Permite identificar qué aerolíneas presentan mayores retrasos promedio y cuáles tienen mejor desempeño relativo.
+
+---
+
+### 6.3 KPI: total de vuelos
+
+**Tipo:** Indicador agregado  
+**Campo principal:**
+
+- `COUNT(flight_sk)` o conteo de registros de `fact_vuelo`
+
+**Propósito:**  
+Muestra el volumen total de vuelos disponibles para el análisis.
+
+Valor esperado del Data Warehouse:
+
+```text
+14,825,707 vuelos
+```
+
+---
+
+### 6.4 KPI: retraso promedio
+
+**Tipo:** Indicador agregado  
+**Campo principal:**
+
+- `AVG(arr_delay)`
+
+**Propósito:**  
+Muestra el retraso promedio de llegada considerando los vuelos del periodo analizado.
+
+---
+
+### 6.5 KPI: porcentaje de cancelados
+
+**Tipo:** Indicador agregado  
+**Campo principal:**
+
+- `cancelled`
+
+**Propósito:**  
+Muestra el porcentaje de vuelos cancelados dentro del total de vuelos analizados.
+
+Una forma de calcularlo es:
+
+```text
+SUM(cancelled) / COUNT(flight_sk)
+```
+
+---
+
+### 6.6 Distribución de causas de retraso por trimestre
+
+**Tipo:** Barras apiladas  
+**Campos principales:**
+
+- `trimestre`
+- `carrier_delay`
+- `weather_delay`
+- `nas_delay`
+- `late_aircraft_delay`
+
+**Propósito:**  
+Muestra cómo se distribuyen las principales causas de retraso por trimestre.
+
+Esta visualización permite comparar si los retrasos se deben principalmente a la aerolínea, al clima, al sistema aéreo NAS o a la llegada tardía de aeronaves.
+
+---
+
+## 7. Filtro interactivo
+
+El dashboard incluye interacción entre visualizaciones.
+
+La tendencia mensual puede utilizarse como filtro para afectar las demás visualizaciones del dashboard. Al seleccionar un mes o punto temporal, las visualizaciones relacionadas se actualizan para mostrar los datos correspondientes a ese periodo.
+
+Esto permite analizar el comportamiento de aerolíneas, KPIs y causas de retraso según el periodo seleccionado.
+
+---
+
+## 8. Validaciones realizadas
+
+Antes de usar Tableau, se validó en PostgreSQL que el Data Warehouse estuviera correctamente cargado.
+
+### Conteo final de la tabla de hechos
+
 ```sql
-SELECT t.anio, t.mes, t.nombre_mes,
-       AVG(f.arr_delay) AS retraso_promedio,
-       COUNT(*)          AS total_vuelos
-FROM dw.fact_vuelo f
-JOIN dw.dim_tiempo t ON f.tiempo_sk = t.tiempo_sk
-GROUP BY t.anio, t.mes, t.nombre_mes
-ORDER BY t.anio, t.mes;
+SELECT COUNT(*) FROM dw.fact_vuelo;
 ```
 
-**Retraso por aerolínea:**
-```sql
-SELECT a.iata_code, a.nombre_aerolinea,
-       AVG(f.arr_delay)  AS retraso_promedio,
-       COUNT(*)           AS total_vuelos,
-       SUM(f.cancelled)   AS cancelaciones
-FROM dw.fact_vuelo f
-JOIN dw.dim_aerolinea a ON f.aerolinea_sk = a.aerolinea_sk
-GROUP BY a.iata_code, a.nombre_aerolinea
-ORDER BY retraso_promedio DESC;
+Resultado esperado:
+
+```text
+14,825,707
 ```
 
-**Causas de retraso por trimestre:**
+### Conteo por tablas principales
+
 ```sql
-SELECT t.anio, t.trimestre,
-       ROUND(AVG(f.carrier_delay)::numeric, 2)        AS causa_aerolinea,
-       ROUND(AVG(f.weather_delay)::numeric, 2)        AS causa_clima,
-       ROUND(AVG(f.nas_delay)::numeric, 2)            AS causa_nas,
-       ROUND(AVG(f.late_aircraft_delay)::numeric, 2)  AS causa_aeronave_tardía
-FROM dw.fact_vuelo f
-JOIN dw.dim_tiempo t ON f.tiempo_sk = t.tiempo_sk
-WHERE f.cancelled = 0
-GROUP BY t.anio, t.trimestre
-ORDER BY t.anio, t.trimestre;
+SELECT 'dim_tiempo' AS tabla, COUNT(*) FROM dw.dim_tiempo
+UNION ALL
+SELECT 'dim_aerolinea', COUNT(*) FROM dw.dim_aerolinea
+UNION ALL
+SELECT 'dim_aeropuerto', COUNT(*) FROM dw.dim_aeropuerto
+UNION ALL
+SELECT 'fact_vuelo', COUNT(*) FROM dw.fact_vuelo;
 ```
 
-**KPIs generales:**
-```sql
-SELECT
-    COUNT(*)                                              AS total_vuelos,
-    ROUND(AVG(arr_delay)::numeric, 2)                    AS retraso_promedio_min,
-    ROUND(100.0 * SUM(cancelled) / COUNT(*), 2)          AS pct_cancelados
-FROM dw.fact_vuelo;
-```
+Resultados esperados:
+
+| Tabla | Registros |
+|---|---:|
+| `dim_tiempo` | 731 |
+| `dim_aerolinea` | 10 |
+| `dim_aeropuerto` | 362 |
+| `fact_vuelo` | 14,825,707 |
 
 ---
 
-*Documento generado como parte de la documentación técnica del proyecto*  
-*Ver también: `docs/technical-decisions.md` y `README.md`*
+## 9. Consideraciones para la demo
+
+Antes de abrir Tableau, ejecutar:
+
+```powershell
+docker start airline-dw
+```
+
+Luego verificar:
+
+```powershell
+docker ps
+```
+
+La conexión debe mostrar:
+
+```text
+0.0.0.0:5433->5432/tcp
+```
+
+Si Tableau muestra error de conexión, revisar:
+
+1. que Docker Desktop esté abierto;
+2. que el contenedor `airline-dw` esté encendido;
+3. que el puerto sea `5433`;
+4. que la base de datos sea `airline_dw`;
+5. que el usuario y contraseña sean `postgres`.
+
+---
+
+## 10. Relación con los requisitos del proyecto
+
+El dashboard cumple con los requisitos funcionales solicitados para la capa BI:
+
+- conexión directa a PostgreSQL;
+- mínimo 4 visualizaciones analíticas;
+- tendencia temporal;
+- comparativa por categoría;
+- KPIs agregados;
+- distribución de causas de retraso;
+- filtro interactivo funcional.
+
+El dashboard no reemplaza la evidencia técnica del Data Warehouse; sirve como demostración visual de que el modelo dimensional es consultable y útil para análisis.
