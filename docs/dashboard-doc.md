@@ -285,3 +285,4 @@ El dashboard cumple con los requisitos funcionales solicitados para la capa BI:
 - filtro interactivo funcional.
 
 El dashboard no reemplaza la evidencia técnica del Data Warehouse; sirve como demostración visual de que el modelo dimensional es consultable y útil para análisis.
+<!-- actualización documentación dashboard -->
